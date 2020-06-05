@@ -3,22 +3,24 @@
 using namespace std;
 
 string StatusItem::getJsonText() {
-	string jsonText = "";
-	jsonText.append("{");
-
-	jsonText.append("\"full_text\": ");
-	jsonText.append("\"");
-	jsonText.append(fullText);
-	jsonText.append("\",");
-
-	jsonText.append("\"separator\": false,");
-
-	jsonText.append("\"separator_block_width\": 0");
-
-	jsonText.append("}");
-	return jsonText;
+    return StatusItemJsonFormatter::statusItemToJson(*this);
 }
 
 string StatusItem::getFullText() {
 	return fullText;
+}
+
+string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& item) {
+   string jsonString = "";
+
+   jsonString.append("{");
+
+   jsonString.append("\"full_text\": ");
+   jsonString.append("\"");
+   jsonString.append(item.fullText);
+   jsonString.append("\"");
+
+   jsonString.append("}");
+
+   return jsonString;
 }

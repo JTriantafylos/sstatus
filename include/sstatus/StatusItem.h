@@ -30,5 +30,10 @@ class StatusItem {
 
 		bool separatorAfter = true;
 		int separatorBlockWidth = 9;
+	private:
+		class StatusItemJsonFormatter {
+			public:
+				static std::string statusItemToJson(StatusItem&);
+		};
 };
 #endif
