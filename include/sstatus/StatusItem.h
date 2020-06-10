@@ -6,13 +6,19 @@
 class StatusItem {
 	public:
 		std::string getJsonText();
-		std::string getFullText();
+
+        std::string getFullText();
+        std::string getForegroundColor();
+        std::string getBackgroundColor();
+        std::string getBorderColor();
+
+        bool getSeparatorAfter();
 	protected:
 		std::string fullText = "";
 
-		std::string foregroundColor = NULL;
-		std::string backgroundColor = NULL;
-		std::string borderColor = NULL;
+		std::string foregroundColor = "";
+		std::string backgroundColor = "";
+		std::string borderColor = "";
 
 		int borderWidthTop = 1;
 		int borderWidthBottom = 1;
@@ -23,8 +29,8 @@ class StatusItem {
 
 		std::string alignment = "left";
 
-		std::string name = NULL;
-		std::string instance = NULL;
+		std::string name = "";
+		std::string instance = "";
 
 		bool urgent = false;
 
