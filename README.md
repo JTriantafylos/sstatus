@@ -6,3 +6,6 @@
 
 Generate `compile_commands.json` with `bear make`.
 
+## Dependencies
+
+- [TOML++](https://github.com/marzer/tomlplusplus/) (Included with the project)
