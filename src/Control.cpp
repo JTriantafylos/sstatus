@@ -8,7 +8,7 @@ void Control::launch() {
 
     while(true) {
         generateStatus();
-        usleep(REFRESH_RATE);
+        usleep(1000000 / REFRESH_RATE);
     }
 }
 

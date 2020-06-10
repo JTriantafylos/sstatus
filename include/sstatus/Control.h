@@ -11,7 +11,7 @@
 #include "sstatus/StatusItemPadding.h"
 #include "sstatus/StatusItemSeparator.h"
 
-#define REFRESH_RATE 100000 // Microseconds
+#define REFRESH_RATE 10 // Number of refreshes per second
 
 class Control {
 	public:
