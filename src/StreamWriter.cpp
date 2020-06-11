@@ -7,6 +7,7 @@ void StreamWriter::writeStatusItem(string jsonText, bool lastItem) {
 		cout << jsonText;
 	else
 		cout << jsonText << ",";
+    cout << flush;
 }
 
 void StreamWriter::initJSONStream() {
