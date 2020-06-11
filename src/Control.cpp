@@ -8,7 +8,7 @@ void Control::launch() {
 
     while(true) {
         generateStatus();
-        this_thread::sleep_for(chrono::seconds(1));
+        this_thread::sleep_for(chrono::milliseconds(1000 / REFRESH_RATE));
     }
 }
 
