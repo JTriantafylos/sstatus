@@ -10,6 +10,10 @@ string StatusItem::getFullText() {
     return fullText;
 }
 
+void StatusItem::setFullText(string t) {
+    fullText = t;
+}
+
 string StatusItem::getForegroundColor() {
     return foregroundColor;
 }

@@ -13,6 +13,8 @@ class StatusItem {
         std::string getBorderColor();
 
         bool getSeparatorAfter();
+
+        void setFullText(std::string);
 	protected:
 		std::string fullText = "";
 

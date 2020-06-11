@@ -8,13 +8,13 @@ void Control::launch() {
 
     while(true) {
         generateStatus();
-        usleep(1000000 / REFRESH_RATE);
+        this_thread::sleep_for(chrono::seconds(1));
     }
 }
 
 void Control::generateStatus() {
     mStreamWriter.beginStatusItemArray();
-    for(std::vector<StatusItem*>::iterator it = mItems.begin(); it != mItems.end(); ++it) {
+    for(vector<StatusItem*>::iterator it = mItems.begin(); it != mItems.end(); ++it) {
         bool lastItem = false;
         if(it + 1 == mItems.end())
             lastItem = true;
@@ -25,17 +25,25 @@ void Control::generateStatus() {
 }
 
 void Control::initItems() {
-    StatusItem* mItem0 = new StatusItemSeparator();
-    StatusItem* mItem1 = new StatusItemPadding(4);
-    StatusItem* mItem2 = new StatusItemSeparator();
-    StatusItem* mItem3 = new StatusItemPadding(2);
-    StatusItem* mItem4 = new StatusItemSeparator();
-    StatusItem* mItem5 = new StatusItemPadding(8);
+    mItems = mConfigParser.loadConfig(getConfigFilePath());
+}
 
-    mItems.push_back(mItem0);
-    mItems.push_back(mItem1);
-    mItems.push_back(mItem2);
-    mItems.push_back(mItem3);
-    mItems.push_back(mItem4);
-    mItems.push_back(mItem5);
+/*
+ * TODO: Add support for custom config file location.
+ */
+string Control::getConfigFilePath() {
+    string configFilePath = "";
+
+    if(getenv("XDG_CONFIG_HOME") != NULL) {
+        configFilePath = getenv("XDG_CONFIG_HOME");
+        configFilePath.append("/sstatus");
+        configFilePath.append("/config.toml");
+    } else if(getenv("HOME") != NULL) {
+        configFilePath = getenv("HOME");
+        configFilePath.append("/.config");
+        configFilePath.append("/sstatus");
+        configFilePath.append("/config.toml");
+    }
+
+    return configFilePath;
 }

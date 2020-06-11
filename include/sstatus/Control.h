@@ -3,7 +3,13 @@
 
 #include <vector>
 #include <string>
+#include <cstdlib>
 #include <unistd.h>
+
+#include <thread>
+#include <chrono>
+
+#include "sstatus/ConfigParser.h"
 
 #include "sstatus/StreamWriter.h"
 
@@ -11,7 +17,7 @@
 #include "sstatus/StatusItemPadding.h"
 #include "sstatus/StatusItemSeparator.h"
 
-#define REFRESH_RATE 10 // Number of refreshes per second
+#define REFRESH_RATE 1 // Number of refreshes per second
 
 class Control {
 	public:
@@ -20,7 +26,9 @@ class Control {
 	private:
 		void generateStatus();
 		void initItems();
+        std::string getConfigFilePath();
 
+        ConfigParser mConfigParser;
 		std::vector<StatusItem*> mItems;
 		StreamWriter mStreamWriter;
 };
