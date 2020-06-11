@@ -24,7 +24,6 @@ class Control {
 
 	private:
 		void generateStatus();
-		void initItems();
         std::string getConfigFilePath();
 
         ConfigParser mConfigParser;

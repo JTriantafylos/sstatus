@@ -4,7 +4,9 @@ using namespace std;
 
 void Control::launch() {
     mStreamWriter.initJSONStream();
-    initItems();
+
+    string configFilePath = getConfigFilePath();
+    mItems = mConfigParser.loadConfig(configFilePath);
 
     while(true) {
         generateStatus();
@@ -22,10 +24,6 @@ void Control::generateStatus() {
         mStreamWriter.writeStatusItem(item->getJsonText(), lastItem);
     }
     mStreamWriter.endStatusItemArray();
-}
-
-void Control::initItems() {
-    mItems = mConfigParser.loadConfig(getConfigFilePath());
 }
 
 /*
