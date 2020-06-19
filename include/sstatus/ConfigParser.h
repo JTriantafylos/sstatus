@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "sstatus/StatusItem.h"
+#include "sstatus/ShellInterpreter.h"
 
 #include "toml++/toml.h"
 
@@ -18,6 +19,7 @@ class ConfigParser {
     private:
         StatusItem* tomlToStatusItem(toml::table&);
         std::vector<StatusItem*> mItems;
+        ShellInterpreter mShellInterpreter;
 };
 
 #endif

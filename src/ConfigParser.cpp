@@ -45,7 +45,12 @@ vector<StatusItem*> ConfigParser::loadConfig(string configFile) {
         /*
          * TODO: Implement other status item fields.
          */
-        mItem->setFullText(currItem->get_as<string>("FullText")->get());
+        auto scriptNode = currItem->get_as<string>("Script");
+        if(scriptNode) {
+            mItem->setFullText(mShellInterpreter.interpret(scriptNode->get()));
+        } else {
+            mItem->setFullText(currItem->get_as<string>("FullText")->get());
+        }
 
         items.push_back(mItem);
     }
