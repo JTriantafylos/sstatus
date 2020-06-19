@@ -71,6 +71,9 @@ string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& item) {
         jsonString.append(",");
     }
 
+    /*
+     * TODO: Implement other StatusItem fields.
+     */
 
     jsonString.append("\"separator\": ");
     jsonString.append(item.getSeparatorAfter() ? "true" : "false");
