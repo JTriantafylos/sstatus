@@ -4,7 +4,7 @@
 
 ## Build
 
-Generate `compile_commands.json` with `bear make`.
+Generate `compile_commands.json` with `bear -- make`.
 
 ## Dependencies
 
