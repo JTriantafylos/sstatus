@@ -10,7 +10,7 @@
 #include "sstatus/StatusItem.h"
 #include "sstatus/ShellInterpreter.h"
 
-#include "toml++/toml.h"
+#include <toml++/toml.h>
 
 class ConfigParser {
     public:

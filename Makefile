@@ -5,7 +5,7 @@ BUILD    := ./build
 OBJ_DIR  := $(BUILD)/obj
 BIN_DIR  := $(BUILD)/bin
 TARGET   := sstatus
-INCLUDE  := -I include/
+INCLUDE  := -I include/ -I tomlplusplus/include/
 SRC      :=                      \
 	$(wildcard src/*.cpp)         \
 

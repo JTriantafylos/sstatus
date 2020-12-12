@@ -8,8 +8,6 @@
 #include <thread>
 #include <chrono>
 
-#include "toml++/toml.h"
-
 #include "sstatus/ConfigParser.h"
 
 #include "sstatus/StreamWriter.h"
