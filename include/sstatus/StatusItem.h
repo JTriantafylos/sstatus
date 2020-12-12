@@ -2,6 +2,7 @@
 #define STATUSITEM_H
 
 #include <string>
+#include "sstatus/ShellInterpreter.h"
 
 class StatusItem {
 	public:
@@ -14,7 +15,13 @@ class StatusItem {
 
         bool getSeparatorAfter();
 
+        std::string getScript();
+
         void setFullText(std::string);
+
+        void setScript(std::string);
+
+        void setInterval(int);
 	protected:
 		std::string fullText = "";
 
@@ -38,10 +45,16 @@ class StatusItem {
 
 		bool separatorAfter = true;
 		int separatorBlockWidth = 9;
+
+        std::string script;
+
+        int interval; // Number of refresh cycles between refreshing this StatusItem
+        int currentInterval = 0; // Number of refresh cycles before the next script refresh
 	private:
 		class StatusItemJsonFormatter {
 			public:
 				static std::string statusItemToJson(StatusItem&);
 		};
+        ShellInterpreter mShellInterpreter;
 };
 #endif

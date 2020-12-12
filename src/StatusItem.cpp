@@ -7,7 +7,14 @@ string StatusItem::getJsonText() {
 }
 
 string StatusItem::getFullText() {
-    return fullText;
+    if(currentInterval > 1) {
+        currentInterval--;
+        return fullText;
+    } else {
+        fullText = mShellInterpreter.interpret(script);
+        currentInterval = interval;
+        return fullText;
+    }
 }
 
 void StatusItem::setFullText(string t) {
@@ -28,6 +35,18 @@ string StatusItem::getBorderColor() {
 
 bool StatusItem::getSeparatorAfter() {
     return separatorAfter;
+}
+
+string StatusItem::getScript() {
+    return script;
+}
+
+void StatusItem::setScript(string s) {
+    script = s;
+}
+
+void StatusItem::setInterval(int i) {
+    interval = i;
 }
 
 string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& item) {

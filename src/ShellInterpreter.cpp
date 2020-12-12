@@ -3,7 +3,7 @@
 using namespace std;
 
 string ShellInterpreter::interpret(string mScript) {
-    array<char, 128> buffer;
+    array<char, 256> buffer;
     string result;
 
     FILE* pipeO = popen(mScript.c_str(), "r");
@@ -19,7 +19,7 @@ string ShellInterpreter::interpret(string mScript) {
 
     int pipeC = pclose(pipeO);
     if(pipeC != 0)
-        result = "Command Failed!";
+        result = "Command failed!";
 
     return result;
 }

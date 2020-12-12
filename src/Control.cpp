@@ -3,14 +3,24 @@
 using namespace std;
 
 void Control::launch() {
+    mConfigParser.init(getConfigFilePath());
+
+    mRefreshTime = mConfigParser.loadRefreshTime();
+    mItems = mConfigParser.loadStatusItems();
+
     mStreamWriter.initJSONStream();
 
-    string configFilePath = getConfigFilePath();
-    mItems = mConfigParser.loadConfig(configFilePath);
-
     while(true) {
+        auto generateStatusStart = chrono::high_resolution_clock::now();
+
         generateStatus();
-        this_thread::sleep_for(chrono::milliseconds(1000 / REFRESH_RATE));
+
+        auto generateStatusEnd = chrono::high_resolution_clock::now();
+        auto generateStatusDuration = chrono::duration_cast<chrono::milliseconds>(generateStatusEnd - generateStatusStart).count();
+
+        // TODO: Handle condition where generateStatus takes longer than the refresh interval
+        auto sleepDuration = ((mRefreshTime - generateStatusDuration) > 0) ? (mRefreshTime - generateStatusDuration) : 0;
+        this_thread::sleep_for(chrono::milliseconds(sleepDuration));
     }
 }
 

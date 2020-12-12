@@ -8,15 +8,13 @@
 #include <thread>
 #include <chrono>
 
+#include "toml++/toml.h"
+
 #include "sstatus/ConfigParser.h"
 
 #include "sstatus/StreamWriter.h"
 
 #include "sstatus/StatusItem.h"
-#include "sstatus/StatusItemPadding.h"
-#include "sstatus/StatusItemSeparator.h"
-
-#define REFRESH_RATE 1 // Number of refreshes per second
 
 class Control {
 	public:
@@ -26,8 +24,9 @@ class Control {
 		void generateStatus();
         std::string getConfigFilePath();
 
-        ConfigParser mConfigParser;
+        int mRefreshTime;
 		std::vector<StatusItem*> mItems;
+        ConfigParser mConfigParser;
 		StreamWriter mStreamWriter;
 };
 

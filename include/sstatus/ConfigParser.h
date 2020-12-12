@@ -14,12 +14,11 @@
 
 class ConfigParser {
     public:
-        std::vector<StatusItem*> loadConfig(std::string);
-
+        void init(std::string);
+        std::vector<StatusItem*> loadStatusItems();
+        int loadRefreshTime();
     private:
-        StatusItem* tomlToStatusItem(toml::table&);
-        std::vector<StatusItem*> mItems;
-        ShellInterpreter mShellInterpreter;
+        toml::table mConfig;
 };
 
 #endif
