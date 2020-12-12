@@ -50,6 +50,7 @@ class StatusItem {
 
         int interval; // Number of refresh cycles between refreshing this StatusItem
         int currentInterval = 0; // Number of refresh cycles before the next script refresh
+        bool persistent = false; // Whether or not the script has been run for the first time when interval is set to -1
 	private:
 		class StatusItemJsonFormatter {
 			public:

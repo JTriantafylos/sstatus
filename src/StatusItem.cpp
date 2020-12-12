@@ -7,6 +7,14 @@ string StatusItem::getJsonText() {
 }
 
 string StatusItem::getFullText() {
+    if(interval == -1) {
+        if(persistent == false) {
+            fullText = mShellInterpreter.interpret(script);
+            persistent = true;
+        }
+        return fullText;
+    }
+
     if(currentInterval > 1) {
         currentInterval--;
         return fullText;
