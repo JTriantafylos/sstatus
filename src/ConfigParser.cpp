@@ -36,6 +36,9 @@ vector<StatusItem*> ConfigParser::loadStatusItems() {
          * TODO: Implement other status item fields
          * TODO: Implement error handling for missing status item fields
          */
+        mItem->setForegroundColor(currItem->get_as<string>("ForegroundColor")->get());
+        mItem->setBackgroundColor(currItem->get_as<string>("BackgroundColor")->get());
+        mItem->setBorderColor(currItem->get_as<string>("BorderColor")->get());
         mItem->setScript(currItem->get_as<string>("Script")->get());
         mItem->setInterval((currItem->get_as<int64_t>("Interval")->get())); // TODO: Handle conversion of int64_t to int
 

@@ -17,10 +17,6 @@ string StatusItem::getFullText() {
     }
 }
 
-void StatusItem::setFullText(string t) {
-    fullText = t;
-}
-
 string StatusItem::getForegroundColor() {
     return foregroundColor;
 }
@@ -41,11 +37,23 @@ string StatusItem::getScript() {
     return script;
 }
 
-void StatusItem::setScript(string s) {
+void StatusItem::setForegroundColor(const string fg) {
+    foregroundColor = fg;
+}
+
+void StatusItem::setBackgroundColor(const string bg) {
+    backgroundColor = bg;
+}
+
+void StatusItem::setBorderColor(const string b) {
+    borderColor = b;
+}
+
+void StatusItem::setScript(const string s) {
     script = s;
 }
 
-void StatusItem::setInterval(int i) {
+void StatusItem::setInterval(const int i) {
     interval = i;
 }
 

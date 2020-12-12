@@ -17,11 +17,11 @@ class StatusItem {
 
         std::string getScript();
 
-        void setFullText(std::string);
-
-        void setScript(std::string);
-
-        void setInterval(int);
+        void setForegroundColor(const std::string);
+        void setBackgroundColor(const std::string);
+        void setBorderColor(const std::string);
+        void setScript(const std::string);
+        void setInterval(const int);
 	protected:
 		std::string fullText = "";
 
@@ -55,6 +55,7 @@ class StatusItem {
 			public:
 				static std::string statusItemToJson(StatusItem&);
 		};
+
         ShellInterpreter mShellInterpreter;
 };
 #endif
