@@ -5,7 +5,6 @@
 #include <fstream> // Required for toml++ to read from file
 #include <string>
 #include <algorithm>
-#include <iostream>
 
 #include "sstatus/StatusItem.h"
 #include "sstatus/ShellInterpreter.h"
