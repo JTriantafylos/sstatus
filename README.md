@@ -24,7 +24,7 @@ $ cmake -GNinja ..
 $ ninja
 ```
 
-Generate `compile_commands.json` for `ccls` with `bear`.
+Run `cmake` with the flag `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` to generate `compile_commands.json`.
 
 ## Dependencies
 
