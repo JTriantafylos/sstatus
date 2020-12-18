@@ -2,19 +2,14 @@
 
 using namespace std;
 
-/*
- * TODO: Warn user that config file is broken as opposed to crashing out.
- */
 void ConfigParser::init(string configFile) {
     /*
-     * TODO: Handle missing or invalid config files
+     * TODO: Handle missing config files
      */
     try {
         mConfig = toml::parse_file(configFile);
     } catch(toml::parse_error& err) {
-        // TODO: Handle error
         ErrorHandler::throwError(err.description().data());
-        mConfig = toml::table();
     }
 }
 
