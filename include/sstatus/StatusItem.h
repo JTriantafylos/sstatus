@@ -2,6 +2,7 @@
 #define STATUSITEM_H
 
 #include <string>
+
 #include "sstatus/ShellInterpreter.h"
 
 class StatusItem {

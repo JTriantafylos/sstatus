@@ -4,7 +4,6 @@
 #include <string>
 #include <array>
 #include <memory>
-#include <regex>
 
 class ShellInterpreter {
     public:

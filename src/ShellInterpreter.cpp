@@ -14,8 +14,6 @@ string ShellInterpreter::interpret(string mScript) {
     while (fgets(buffer.data(), buffer.size(), pipeO) != nullptr) {
         result += buffer.data();
     }
-    // Remove any newline characters from the line
-    result = regex_replace(result, regex("\n+"), "");
 
     int pipeC = pclose(pipeO);
     if(pipeC != 0)

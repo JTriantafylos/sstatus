@@ -13,6 +13,7 @@ void ConfigParser::init(string configFile) {
         mConfig = toml::parse_file(configFile);
     } catch(toml::parse_error& err) {
         // TODO: Handle error
+        ErrorHandler::throwError(err.description().data());
         mConfig = toml::table();
     }
 }

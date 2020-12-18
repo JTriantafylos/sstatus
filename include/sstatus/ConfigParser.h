@@ -8,6 +8,7 @@
 
 #include "sstatus/StatusItem.h"
 #include "sstatus/ShellInterpreter.h"
+#include "sstatus/ErrorHandler.h"
 
 #include <toml++/toml.h>
 
