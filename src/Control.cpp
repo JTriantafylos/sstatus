@@ -20,12 +20,12 @@ void Control::launch() {
 
 void Control::generateStatus() {
     mStreamWriter.beginStatusItemArray();
-    for(std::vector<StatusItem*>::iterator it = mItems.begin(); it != mItems.end(); ++it) {
+    for(std::vector<StatusItem>::iterator it = mItems.begin(); it != mItems.end(); ++it) {
         bool lastItem = false;
         if(it + 1 == mItems.end())
             lastItem = true;
-        StatusItem* item = *it;
-        mStreamWriter.writeStatusItem(item->getJsonText(), lastItem);
+        StatusItem item = *it;
+        mStreamWriter.writeStatusItem(item.getJsonText(), lastItem);
     }
     mStreamWriter.endStatusItemArray();
 }

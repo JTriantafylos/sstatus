@@ -23,7 +23,7 @@ class Control {
         std::string getConfigFilePath();
 
         int mRefreshTime = 1000;
-		std::vector<StatusItem*> mItems;
+		std::vector<StatusItem> mItems;
 
         ConfigParser mConfigParser;
 		StreamWriter mStreamWriter;
