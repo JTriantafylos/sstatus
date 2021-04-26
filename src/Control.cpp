@@ -1,10 +1,10 @@
 #include "sstatus/Control.h"
 
-void Control::launch() {
+[[noreturn]] void Control::launch() {
     mConfigParser.init(getConfigFilePath());
     mRefreshTime = mConfigParser.loadRefreshTime();
     mItems = mConfigParser.loadStatusItems();
-    mStreamWriter.initJSONStream();
+    StreamWriter::initJSONStream();
 
     while(true) {
         auto generateStatusStart = std::chrono::high_resolution_clock::now();
@@ -19,28 +19,28 @@ void Control::launch() {
 }
 
 void Control::generateStatus() {
-    mStreamWriter.beginStatusItemArray();
-    for(std::vector<StatusItem>::iterator it = mItems.begin(); it != mItems.end(); ++it) {
+    StreamWriter::beginStatusItemArray();
+    for(auto it = mItems.begin(); it != mItems.end(); ++it) {
         bool lastItem = false;
         if(it + 1 == mItems.end())
             lastItem = true;
         StatusItem item = *it;
-        mStreamWriter.writeStatusItem(item.getJsonText(), lastItem);
+        StreamWriter::writeStatusItem(item.getJsonText(), lastItem);
     }
-    mStreamWriter.endStatusItemArray();
+    StreamWriter::endStatusItemArray();
 }
 
 /*
  * TODO: Add support for custom config file location.
  */
 std::string Control::getConfigFilePath() {
-    std::string configFilePath = "";
+    std::string configFilePath;
 
-    if(getenv("XDG_CONFIG_HOME") != NULL) {
+    if(getenv("XDG_CONFIG_HOME") != nullptr) {
         configFilePath = getenv("XDG_CONFIG_HOME");
         configFilePath.append("/sstatus");
         configFilePath.append("/config.toml");
-    } else if(getenv("HOME") != NULL) {
+    } else if(getenv("HOME") != nullptr) {
         configFilePath = getenv("HOME");
         configFilePath.append("/.config");
         configFilePath.append("/sstatus");

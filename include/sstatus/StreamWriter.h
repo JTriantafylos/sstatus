@@ -9,11 +9,11 @@
 
 class StreamWriter {
 	public:
-        void writeError(std::string);
-		void writeStatusItem(std::string, bool);
-		void beginStatusItemArray();
-		void endStatusItemArray();
-		void initJSONStream();
+        static void writeError(const std::string&);
+		static void writeStatusItem(const std::string&, bool);
+		static void beginStatusItemArray();
+		static void endStatusItemArray();
+		static void initJSONStream();
 };
 
 #endif

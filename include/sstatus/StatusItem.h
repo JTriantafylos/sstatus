@@ -14,21 +14,21 @@ class StatusItem {
         std::string getBackgroundColor();
         std::string getBorderColor();
 
-        bool getSeparatorAfter();
+        [[nodiscard]] bool hasSeparatorAfter() const;
 
         std::string getScript();
 
-        void setForegroundColor(const std::string);
-        void setBackgroundColor(const std::string);
-        void setBorderColor(const std::string);
-        void setScript(const std::string);
-        void setInterval(const int);
+        void setForegroundColor(const std::string&);
+        void setBackgroundColor(const std::string&);
+        void setBorderColor(const std::string&);
+        void setScript(const std::string&);
+        void setInterval(int);
 	protected:
-		std::string fullText = "";
+		std::string fullText;
 
-		std::string foregroundColor = "";
-		std::string backgroundColor = "";
-		std::string borderColor = "";
+		std::string foregroundColor;
+		std::string backgroundColor;
+		std::string borderColor;
 
 		int borderWidthTop = 1;
 		int borderWidthBottom = 1;
@@ -39,8 +39,8 @@ class StatusItem {
 
 		std::string alignment = "left";
 
-		std::string name = "";
-		std::string instance = "";
+		std::string name;
+		std::string instance;
 
 		bool urgent = false;
 
@@ -57,7 +57,5 @@ class StatusItem {
 			public:
 				static std::string statusItemToJson(StatusItem&);
 		};
-
-        ShellInterpreter mShellInterpreter;
 };
 #endif

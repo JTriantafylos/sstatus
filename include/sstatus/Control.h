@@ -16,18 +16,16 @@
 
 class Control {
 	public:
-		void launch();
+    [[noreturn]] void launch();
 
 	private:
 		void generateStatus();
-        std::string getConfigFilePath();
+        static std::string getConfigFilePath();
 
         int mRefreshTime = 1000;
 		std::vector<StatusItem> mItems;
 
         ConfigParser mConfigParser;
-		StreamWriter mStreamWriter;
-
 };
 
 #endif

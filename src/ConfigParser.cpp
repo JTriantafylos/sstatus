@@ -1,6 +1,6 @@
 #include "sstatus/ConfigParser.h"
 
-void ConfigParser::init(std::string configFile) {
+void ConfigParser::init(const std::string& configFile) {
     /*
      * TODO: Handle missing config files
      */
@@ -20,7 +20,7 @@ std::vector<StatusItem> ConfigParser::loadStatusItems() {
     std::vector<StatusItem> items;
 
     auto statusItemsTableArray = mConfig["StatusItems"];
-    int statusItemsTableSize = statusItemsTableArray.as_array()->size();
+    std::size_t statusItemsTableSize = statusItemsTableArray.as_array()->size();
 
     for(int i = 0; i < statusItemsTableSize; ++i) {
         auto currItem = statusItemsTableArray[i].as_table();

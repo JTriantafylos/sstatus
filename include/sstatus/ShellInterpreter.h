@@ -7,7 +7,7 @@
 
 class ShellInterpreter {
     public:
-        std::string interpret(std::string);
+        static std::string interpret(const std::string& script);
 };
 
 #endif

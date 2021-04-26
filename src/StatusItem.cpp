@@ -6,8 +6,8 @@ std::string StatusItem::getJsonText() {
 
 std::string StatusItem::getFullText() {
     if(interval == -1) {
-        if(persistent == false) {
-            fullText = mShellInterpreter.interpret(script);
+        if(!persistent) {
+            fullText = ShellInterpreter::interpret(script);
             persistent = true;
         }
         return fullText;
@@ -17,7 +17,7 @@ std::string StatusItem::getFullText() {
         currentInterval--;
         return fullText;
     } else {
-        fullText = mShellInterpreter.interpret(script);
+        fullText = ShellInterpreter::interpret(script);
         currentInterval = interval;
         return fullText;
     }
@@ -35,7 +35,7 @@ std::string StatusItem::getBorderColor() {
     return borderColor;
 }
 
-bool StatusItem::getSeparatorAfter() {
+bool StatusItem::hasSeparatorAfter() const {
     return separatorAfter;
 }
 
@@ -43,28 +43,28 @@ std::string StatusItem::getScript() {
     return script;
 }
 
-void StatusItem::setForegroundColor(const std::string fg) {
+void StatusItem::setForegroundColor(const std::string& fg) {
     foregroundColor = fg;
 }
 
-void StatusItem::setBackgroundColor(const std::string bg) {
+void StatusItem::setBackgroundColor(const std::string& bg) {
     backgroundColor = bg;
 }
 
-void StatusItem::setBorderColor(const std::string b) {
+void StatusItem::setBorderColor(const std::string& b) {
     borderColor = b;
 }
 
-void StatusItem::setScript(const std::string s) {
+void StatusItem::setScript(const std::string& s) {
     script = s;
 }
 
-void StatusItem::setInterval(const int i) {
+void StatusItem::setInterval(int i) {
     interval = i;
 }
 
 std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& item) {
-    std::string jsonString = "";
+    std::string jsonString;
 
     jsonString.append("{");
 
@@ -109,7 +109,7 @@ std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& it
      */
 
     jsonString.append("\"separator\": ");
-    jsonString.append(item.getSeparatorAfter() ? "true" : "false");
+    jsonString.append(item.hasSeparatorAfter() ? "true" : "false");
 
     jsonString.append("}");
 

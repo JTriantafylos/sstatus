@@ -1,9 +1,9 @@
 #include "sstatus/StreamWriter.h"
 
-void StreamWriter::writeError(std::string error) {
+void StreamWriter::writeError(const std::string& error) {
     beginStatusItemArray();
 
-    std::string errorJson = "";
+    std::string errorJson;
 	errorJson.append("{");
 	errorJson.append("\"full_text\": ");
 	errorJson.append("\"");
@@ -29,19 +29,19 @@ void StreamWriter::writeError(std::string error) {
     std::cout << std::flush;
 }
 
-void StreamWriter::writeStatusItem(std::string jsonText, bool lastItem) {
+void StreamWriter::writeStatusItem(const std::string& jsonText, bool lastItem) {
     // Remove any newline characters from the line
-    jsonText = regex_replace(jsonText, std::regex("\n+"), "");
+    std::string newText = regex_replace(jsonText, std::regex("\n+"), "");
 
 	if(lastItem)
-        std::cout << jsonText;
+        std::cout << newText;
 	else
-        std::cout << jsonText << ",";
+        std::cout << newText << ",";
     std::cout << std::flush;
 }
 
 void StreamWriter::initJSONStream() {
-    std::string header = "";
+    std::string header;
 	header.append("{");
 	header.append("\"version\": ");
 	header.append("1");

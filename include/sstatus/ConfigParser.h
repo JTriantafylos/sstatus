@@ -13,7 +13,7 @@
 
 class ConfigParser {
     public:
-        void init(std::string);
+        void init(const std::string& configFile);
         std::vector<StatusItem> loadStatusItems();
         int loadRefreshTime();
     private:
