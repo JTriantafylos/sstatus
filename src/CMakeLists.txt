@@ -7,9 +7,7 @@ target_sources(sstatus
     PRIVATE ConfigParser.cpp
     PRIVATE ShellInterpreter.cpp
     PRIVATE StatusItem.cpp
-    PRIVATE StreamWriter.cpp
-    PRIVATE ErrorHandler.cpp
-    PRIVATE Error.cpp)
+    PRIVATE StreamWriter.cpp)
 
 set_property(TARGET sstatus PROPERTY CXX_STANDARD 17)
 set_property(TARGET sstatus PROPERTY RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)

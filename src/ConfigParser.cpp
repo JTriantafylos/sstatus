@@ -9,7 +9,7 @@ void ConfigParser::init(string configFile) {
     try {
         mConfig = toml::parse_file(configFile);
     } catch(toml::parse_error& err) {
-        ErrorHandler::throwError(err.description().data());
+        // TODO: Handle potential error
     }
 }
 

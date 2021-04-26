@@ -12,10 +12,6 @@
 
 #include "sstatus/StreamWriter.h"
 
-#include "sstatus/ErrorHandler.h"
-
-#include "sstatus/Error.h"
-
 #include "sstatus/StatusItem.h"
 
 class Control {
@@ -25,7 +21,6 @@ class Control {
 	private:
 		void generateStatus();
         std::string getConfigFilePath();
-        void handleError(Error);
 
         int mRefreshTime = 1000;
 		std::vector<StatusItem*> mItems;

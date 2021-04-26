@@ -4,18 +4,13 @@ using namespace std;
 
 void Control::launch() {
     mConfigParser.init(getConfigFilePath());
-    if(!ErrorHandler::getErrorInterrupt()) {
-        mRefreshTime = mConfigParser.loadRefreshTime();
-        mItems = mConfigParser.loadStatusItems();
-    }
+    mRefreshTime = mConfigParser.loadRefreshTime();
+    mItems = mConfigParser.loadStatusItems();
     mStreamWriter.initJSONStream();
 
     while(true) {
         auto generateStatusStart = chrono::high_resolution_clock::now();
-        if(ErrorHandler::getErrorInterrupt())
-            handleError(ErrorHandler::getCurrentError());
-        else
-            generateStatus();
+        generateStatus();
         auto generateStatusEnd = chrono::high_resolution_clock::now();
 
         auto generateStatusDuration = chrono::duration_cast<chrono::milliseconds>(generateStatusEnd - generateStatusStart).count();
@@ -35,10 +30,6 @@ void Control::generateStatus() {
         mStreamWriter.writeStatusItem(item->getJsonText(), lastItem);
     }
     mStreamWriter.endStatusItemArray();
-}
-
-void Control::handleError(Error error) {
-    mStreamWriter.writeError(error.message);
 }
 
 /*
