@@ -7,3 +7,6 @@ bin/*
 
 # Ignore ccls cache
 .ccls-cache/
+
+# Ignore CLion specific folders
+.idea/
