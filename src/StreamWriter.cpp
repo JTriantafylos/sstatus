@@ -1,11 +1,9 @@
 #include "sstatus/StreamWriter.h"
 
-using namespace std;
-
-void StreamWriter::writeError(string error) {
+void StreamWriter::writeError(std::string error) {
     beginStatusItemArray();
 
-	string errorJson = "";
+    std::string errorJson = "";
 	errorJson.append("{");
 	errorJson.append("\"full_text\": ");
 	errorJson.append("\"");
@@ -20,43 +18,43 @@ void StreamWriter::writeError(string error) {
 	errorJson.append("}");
 
     // Remove any newline characters from the line
-    errorJson = regex_replace(errorJson, regex("\n+"), "<newline>");
+    errorJson = regex_replace(errorJson, std::regex("\n+"), "<newline>");
     // TODO: Figure out why some newline characters need the below regex to be matched
-    errorJson = regex_replace(errorJson, regex("\\\\n+"), "<newline>");
+    errorJson = regex_replace(errorJson, std::regex("\\\\n+"), "<newline>");
 
-    cout << errorJson;
+    std::cout << errorJson;
 
     endStatusItemArray();
 
-	cout << flush;
+    std::cout << std::flush;
 }
 
-void StreamWriter::writeStatusItem(string jsonText, bool lastItem) {
+void StreamWriter::writeStatusItem(std::string jsonText, bool lastItem) {
     // Remove any newline characters from the line
-    jsonText = regex_replace(jsonText, regex("\n+"), "");
+    jsonText = regex_replace(jsonText, std::regex("\n+"), "");
 
 	if(lastItem)
-		cout << jsonText;
+        std::cout << jsonText;
 	else
-		cout << jsonText << ",";
-    cout << flush;
+        std::cout << jsonText << ",";
+    std::cout << std::flush;
 }
 
 void StreamWriter::initJSONStream() {
-	string header = "";
+    std::string header = "";
 	header.append("{");
 	header.append("\"version\": ");
 	header.append("1");
 	header.append("}");
-	cout << header;
+    std::cout << header;
 
-	cout << "[";
+    std::cout << "[";
 }
 
 void StreamWriter::beginStatusItemArray() {
-	cout << "[";
+    std::cout << "[";
 }
 
 void StreamWriter::endStatusItemArray() {
-	cout << "],";
+    std::cout << "],";
 }

@@ -1,7 +1,5 @@
 #include "sstatus/Control.h"
 
-using namespace std;
-
 void Control::launch() {
     mConfigParser.init(getConfigFilePath());
     mRefreshTime = mConfigParser.loadRefreshTime();
@@ -9,20 +7,20 @@ void Control::launch() {
     mStreamWriter.initJSONStream();
 
     while(true) {
-        auto generateStatusStart = chrono::high_resolution_clock::now();
+        auto generateStatusStart = std::chrono::high_resolution_clock::now();
         generateStatus();
-        auto generateStatusEnd = chrono::high_resolution_clock::now();
+        auto generateStatusEnd = std::chrono::high_resolution_clock::now();
 
-        auto generateStatusDuration = chrono::duration_cast<chrono::milliseconds>(generateStatusEnd - generateStatusStart).count();
+        auto generateStatusDuration = std::chrono::duration_cast<std::chrono::milliseconds>(generateStatusEnd - generateStatusStart).count();
         // TODO: Handle condition where generateStatus takes longer than the refresh interval
         auto sleepDuration = ((mRefreshTime - generateStatusDuration) > 0) ? (mRefreshTime - generateStatusDuration) : 0;
-        this_thread::sleep_for(chrono::milliseconds(sleepDuration));
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleepDuration));
     }
 }
 
 void Control::generateStatus() {
     mStreamWriter.beginStatusItemArray();
-    for(vector<StatusItem*>::iterator it = mItems.begin(); it != mItems.end(); ++it) {
+    for(std::vector<StatusItem*>::iterator it = mItems.begin(); it != mItems.end(); ++it) {
         bool lastItem = false;
         if(it + 1 == mItems.end())
             lastItem = true;
@@ -35,8 +33,8 @@ void Control::generateStatus() {
 /*
  * TODO: Add support for custom config file location.
  */
-string Control::getConfigFilePath() {
-    string configFilePath = "";
+std::string Control::getConfigFilePath() {
+    std::string configFilePath = "";
 
     if(getenv("XDG_CONFIG_HOME") != NULL) {
         configFilePath = getenv("XDG_CONFIG_HOME");
