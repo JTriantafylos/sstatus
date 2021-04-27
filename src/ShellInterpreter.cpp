@@ -1,7 +1,7 @@
 #include "sstatus/ShellInterpreter.h"
 
 std::string ShellInterpreter::interpret(const std::string& script) {
-    std::array<char, 256> buffer {};
+    std::array<char, 256> buffer{};
     std::string result;
 
     FILE* pipeO = popen(script.c_str(), "r");
@@ -14,7 +14,7 @@ std::string ShellInterpreter::interpret(const std::string& script) {
     }
 
     int pipeC = pclose(pipeO);
-    if(pipeC != 0)
+    if (pipeC != 0)
         result = "Command failed!";
 
     return result;

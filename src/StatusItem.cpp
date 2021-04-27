@@ -5,15 +5,15 @@ std::string StatusItem::getJsonText() {
 }
 
 std::string StatusItem::getFullText() {
-    if(interval == -1) {
-        if(!persistent) {
+    if (interval == -1) {
+        if (!persistent) {
             fullText = ShellInterpreter::interpret(script);
             persistent = true;
         }
         return fullText;
     }
 
-    if(currentInterval > 1) {
+    if (currentInterval > 1) {
         currentInterval--;
         return fullText;
     } else {
@@ -43,19 +43,19 @@ std::string StatusItem::getScript() {
     return script;
 }
 
-void StatusItem::setForegroundColor(const std::string& fg) {
+void StatusItem::setForegroundColor(const std::string &fg) {
     foregroundColor = fg;
 }
 
-void StatusItem::setBackgroundColor(const std::string& bg) {
+void StatusItem::setBackgroundColor(const std::string &bg) {
     backgroundColor = bg;
 }
 
-void StatusItem::setBorderColor(const std::string& b) {
+void StatusItem::setBorderColor(const std::string &b) {
     borderColor = b;
 }
 
-void StatusItem::setScript(const std::string& s) {
+void StatusItem::setScript(const std::string &s) {
     script = s;
 }
 
@@ -63,13 +63,13 @@ void StatusItem::setInterval(int i) {
     interval = i;
 }
 
-std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& item) {
+std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem &item) {
     std::string jsonString;
 
     jsonString.append("{");
 
     std::string mFullText = item.getFullText();
-    if(!mFullText.empty()) {
+    if (!mFullText.empty()) {
         jsonString.append("\"full_text\": ");
         jsonString.append("\"");
         jsonString.append(mFullText);
@@ -78,7 +78,7 @@ std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& it
     }
 
     std::string mForegroundColor = item.getForegroundColor();
-    if(!mForegroundColor.empty()) {
+    if (!mForegroundColor.empty()) {
         jsonString.append("\"color\": ");
         jsonString.append("\"");
         jsonString.append(mForegroundColor);
@@ -87,7 +87,7 @@ std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& it
     }
 
     std::string mBackgroundColor = item.getBackgroundColor();
-    if(!mBackgroundColor.empty()) {
+    if (!mBackgroundColor.empty()) {
         jsonString.append("\"background\": ");
         jsonString.append("\"");
         jsonString.append(mBackgroundColor);
@@ -96,7 +96,7 @@ std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& it
     }
 
     std::string mBorderColor = item.getBorderColor();
-    if(!mBorderColor.empty()) {
+    if (!mBorderColor.empty()) {
         jsonString.append("\"border\": ");
         jsonString.append("\"");
         jsonString.append(mBorderColor);

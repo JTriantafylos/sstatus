@@ -1,12 +1,12 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include <vector>
-#include <string>
 #include <cstdlib>
+#include <string>
+#include <vector>
 
-#include <thread>
 #include <chrono>
+#include <thread>
 
 #include "sstatus/ConfigParser.h"
 
@@ -15,17 +15,17 @@
 #include "sstatus/StatusItem.h"
 
 class Control {
-	public:
+  public:
     [[noreturn]] void launch();
 
-	private:
-		void generateStatus();
-        static std::string getConfigFilePath();
+  private:
+    void generateStatus();
+    static std::string getConfigFilePath();
 
-        int mRefreshTime = 1000;
-		std::vector<StatusItem> mItems;
+    int mRefreshTime = 1000;
+    std::vector<StatusItem> mItems;
 
-        ConfigParser mConfigParser;
+    ConfigParser mConfigParser;
 };
 
 #endif
