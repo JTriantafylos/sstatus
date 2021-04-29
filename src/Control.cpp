@@ -2,35 +2,39 @@
 
 [[noreturn]] void Control::launch() {
     mConfigParser.init(getConfigFilePath());
-    mRefreshTime = mConfigParser.loadRefreshTime();
-    mItems = mConfigParser.loadStatusItems();
+
+    int idCount = 0;
+    for (StatusItem* statusItem : mConfigParser.loadStatusItems()) {
+        mStatusItemThreads.emplace_back(statusItem, idCount, &mStatusItemUpdateQueue);
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        mStatusItemTextArray.emplace_back("");
+        idCount++;
+    }
+
     StreamWriter::initJSONStream();
-
     while (true) {
-        auto generateStatusStart = std::chrono::high_resolution_clock::now();
-        generateStatus();
-        auto generateStatusEnd = std::chrono::high_resolution_clock::now();
+        std::pair<std::string, int> updatedItem;
 
-        auto generateStatusDuration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                                          generateStatusEnd - generateStatusStart)
-                                          .count();
-        // TODO: Handle condition where generateStatus takes longer than the
-        // refresh interval
-        auto sleepDuration = ((mRefreshTime - generateStatusDuration) > 0)
-                                 ? (mRefreshTime - generateStatusDuration)
-                                 : 0;
-        std::this_thread::sleep_for(std::chrono::milliseconds(sleepDuration));
+        while(mStatusItemUpdateQueue.try_dequeue(updatedItem)) {
+            mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
+        }
+        generateStatus();
+
+        mStatusItemUpdateQueue.wait_dequeue(updatedItem);
+        mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
     }
 }
 
 void Control::generateStatus() {
     StreamWriter::beginStatusItemArray();
-    for (auto it = mItems.begin(); it != mItems.end(); ++it) {
+    for (auto it = mStatusItemTextArray.begin(); it != mStatusItemTextArray.end(); ++it) {
         bool lastItem = false;
-        if (it + 1 == mItems.end())
+        if (it + 1 == mStatusItemTextArray.end())
             lastItem = true;
-        StatusItem item = *it;
-        StreamWriter::writeStatusItem(item.getJsonText(), lastItem);
+        std::string text = *it;
+        if(!text.empty()) {
+            StreamWriter::writeStatusItem(text, lastItem);
+        }
     }
     StreamWriter::endStatusItemArray();
 }

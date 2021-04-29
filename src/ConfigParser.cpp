@@ -18,25 +18,25 @@ int ConfigParser::loadRefreshTime() {
         ->get();  // TODO: Handle conversion of int64_t to int
 }
 
-std::vector<StatusItem> ConfigParser::loadStatusItems() {
-    std::vector<StatusItem> items;
+std::vector<StatusItem*> ConfigParser::loadStatusItems() {
+    std::vector<StatusItem*> items;
 
     auto statusItemsTableArray = mConfig["StatusItems"];
     std::size_t statusItemsTableSize = statusItemsTableArray.as_array()->size();
 
     for (int i = 0; i < statusItemsTableSize; ++i) {
         auto currItem = statusItemsTableArray[i].as_table();
-        StatusItem mItem = StatusItem();
+        auto* mItem = new StatusItem();
 
         /*
          * TODO: Implement other status item fields
          * TODO: Implement error handling for missing status item fields
          */
-        mItem.setForegroundColor(currItem->get_as<std::string>("ForegroundColor")->get());
-        mItem.setBackgroundColor(currItem->get_as<std::string>("BackgroundColor")->get());
-        mItem.setBorderColor(currItem->get_as<std::string>("BorderColor")->get());
-        mItem.setScript(currItem->get_as<std::string>("Script")->get());
-        mItem.setInterval((currItem->get_as<int64_t>("Interval")
+        mItem->setForegroundColor(currItem->get_as<std::string>("ForegroundColor")->get());
+        mItem->setBackgroundColor(currItem->get_as<std::string>("BackgroundColor")->get());
+        mItem->setBorderColor(currItem->get_as<std::string>("BorderColor")->get());
+        mItem->setScript(currItem->get_as<std::string>("Script")->get());
+        mItem->setInterval((currItem->get_as<int64_t>("Interval")
                                ->get()));  // TODO: Handle conversion of int64_t to int
 
         items.push_back(mItem);

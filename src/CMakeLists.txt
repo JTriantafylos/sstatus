@@ -7,6 +7,7 @@ target_sources(sstatus
         PRIVATE ConfigParser.cpp
         PRIVATE ShellInterpreter.cpp
         PRIVATE StatusItem.cpp
+        PRIVATE StatusItemThread.cpp
         PRIVATE StreamWriter.cpp)
 
 set_property(TARGET sstatus PROPERTY CXX_STANDARD 17)
@@ -14,4 +15,7 @@ set_property(TARGET sstatus PROPERTY RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_D
 
 target_include_directories(sstatus
         PRIVATE ${PROJECT_SOURCE_DIR}/include
-        PRIVATE ${PROJECT_SOURCE_DIR}/tomlplusplus/include)
+        PRIVATE ${PROJECT_SOURCE_DIR}/tomlplusplus/include
+        PRIVATE ${PROJECT_SOURCE_DIR}/concurrentqueue)
+
+target_link_libraries(sstatus pthread)

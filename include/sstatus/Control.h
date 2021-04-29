@@ -1,18 +1,18 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
+#include <chrono>
 #include <cstdlib>
 #include <string>
+#include <thread>
 #include <vector>
 
-#include <chrono>
-#include <thread>
+#include "blockingconcurrentqueue.h"
 
 #include "sstatus/ConfigParser.h"
-
-#include "sstatus/StreamWriter.h"
-
 #include "sstatus/StatusItem.h"
+#include "sstatus/StatusItemThread.h"
+#include "sstatus/StreamWriter.h"
 
 class Control {
   public:
@@ -22,10 +22,11 @@ class Control {
     void generateStatus();
     static std::string getConfigFilePath();
 
-    int mRefreshTime = 1000;
-    std::vector<StatusItem> mItems;
-
+    std::vector<std::shared_ptr<StatusItem>> mStatusItems;
+    std::vector<StatusItemThread> mStatusItemThreads;
+    std::vector<std::string> mStatusItemTextArray;
     ConfigParser mConfigParser;
+    moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>> mStatusItemUpdateQueue;
 };
 
 #endif

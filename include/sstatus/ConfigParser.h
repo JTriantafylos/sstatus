@@ -2,7 +2,7 @@
 #define CONFIGPARSER_H
 
 #include <algorithm>
-#include <fstream>  // Required for toml++ to read from file
+#include <fstream> // Required for toml++ to read from file
 #include <string>
 #include <vector>
 
@@ -12,13 +12,13 @@
 #include <toml++/toml.h>
 
 class ConfigParser {
-  public:
-    void init(const std::string& configFile);
-    std::vector<StatusItem> loadStatusItems();
-    int loadRefreshTime();
+public:
+  void init(const std::string &configFile);
+  std::vector<StatusItem*> loadStatusItems();
+  int loadRefreshTime();
 
-  private:
-    toml::table mConfig;
+private:
+  toml::table mConfig;
 };
 
 #endif
