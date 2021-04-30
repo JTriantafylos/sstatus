@@ -43,19 +43,19 @@ std::string StatusItem::getScript() {
     return script;
 }
 
-void StatusItem::setForegroundColor(const std::string &fg) {
+void StatusItem::setForegroundColor(const std::string& fg) {
     foregroundColor = fg;
 }
 
-void StatusItem::setBackgroundColor(const std::string &bg) {
+void StatusItem::setBackgroundColor(const std::string& bg) {
     backgroundColor = bg;
 }
 
-void StatusItem::setBorderColor(const std::string &b) {
+void StatusItem::setBorderColor(const std::string& b) {
     borderColor = b;
 }
 
-void StatusItem::setScript(const std::string &s) {
+void StatusItem::setScript(const std::string& s) {
     script = s;
 }
 
@@ -63,7 +63,7 @@ void StatusItem::setInterval(int i) {
     interval = i;
 }
 
-std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem &item) {
+std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& item) {
     std::string jsonString;
 
     jsonString.append("{");

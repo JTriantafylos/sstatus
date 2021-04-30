@@ -37,7 +37,7 @@ std::vector<StatusItem*> ConfigParser::loadStatusItems() {
         mItem->setBorderColor(currItem->get_as<std::string>("BorderColor")->get());
         mItem->setScript(currItem->get_as<std::string>("Script")->get());
         mItem->setInterval((currItem->get_as<int64_t>("Interval")
-                               ->get()));  // TODO: Handle conversion of int64_t to int
+                                ->get()));  // TODO: Handle conversion of int64_t to int
 
         items.push_back(mItem);
     }

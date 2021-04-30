@@ -15,7 +15,7 @@
     while (true) {
         std::pair<std::string, int> updatedItem;
 
-        while(mStatusItemUpdateQueue.try_dequeue(updatedItem)) {
+        while (mStatusItemUpdateQueue.try_dequeue(updatedItem)) {
             mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
         }
         generateStatus();
@@ -32,7 +32,7 @@ void Control::generateStatus() {
         if (it + 1 == mStatusItemTextArray.end())
             lastItem = true;
         std::string text = *it;
-        if(!text.empty()) {
+        if (!text.empty()) {
             StreamWriter::writeStatusItem(text, lastItem);
         }
     }
