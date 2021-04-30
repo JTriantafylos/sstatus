@@ -6,7 +6,6 @@
     int idCount = 0;
     for (StatusItem* statusItem : mConfigParser.loadStatusItems()) {
         mStatusItemThreads.emplace_back(statusItem, idCount, &mStatusItemUpdateQueue);
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         mStatusItemTextArray.emplace_back("");
         idCount++;
     }
