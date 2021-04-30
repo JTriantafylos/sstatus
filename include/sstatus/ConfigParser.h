@@ -13,11 +13,10 @@
 
 class ConfigParser {
   public:
-    void init(const std::string& configFile);
-    std::vector<StatusItem*> loadStatusItems();
+    static std::vector<StatusItem*> loadStatusItemsFromConfig(const std::string& configFilePath);
 
   private:
-    toml::table mConfig;
+    static bool isValidStatusItem(toml::node_view<toml::node> node);
 };
 
 #endif

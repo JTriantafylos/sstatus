@@ -30,14 +30,14 @@ void StreamWriter::writeError(const std::string& error) {
     std::cout << std::flush;
 }
 
-void StreamWriter::writeStatusItem(const std::string& jsonText, bool lastItem) {
+void StreamWriter::writeStatusItem(const std::string& jsonText, bool firstItem) {
     // Remove any newline characters from the line
     std::string newText = regex_replace(jsonText, std::regex("\n+"), "");
 
-    if (lastItem)
+    if (firstItem)
         std::cout << newText;
     else
-        std::cout << newText << ",";
+        std::cout << "," << newText;
     std::cout << std::flush;
 }
 

@@ -1,5 +1,14 @@
 #include "sstatus/StatusItem.h"
 
+#include <utility>
+
+StatusItem::StatusItem(std::string s, std::string fg, std::string bg, std::string bc, const long i)
+    : script(std::move(s)),
+      foregroundColor(std::move(fg)),
+      backgroundColor(std::move(bg)),
+      borderColor(std::move(bc)),
+      interval(i) {}
+
 std::string StatusItem::getJsonText() {
     return StatusItemJsonFormatter::statusItemToJson(*this);
 }
@@ -25,28 +34,8 @@ bool StatusItem::hasSeparatorAfter() const {
     return separatorAfter;
 }
 
-long StatusItem::getInterval() {
+long StatusItem::getInterval() const {
     return interval;
-}
-
-void StatusItem::setForegroundColor(const std::string& fg) {
-    foregroundColor = fg;
-}
-
-void StatusItem::setBackgroundColor(const std::string& bg) {
-    backgroundColor = bg;
-}
-
-void StatusItem::setBorderColor(const std::string& b) {
-    borderColor = b;
-}
-
-void StatusItem::setScript(const std::string& s) {
-    script = s;
-}
-
-void StatusItem::setInterval(long i) {
-    interval = i;
 }
 
 std::string StatusItem::StatusItemJsonFormatter::statusItemToJson(StatusItem& item) {

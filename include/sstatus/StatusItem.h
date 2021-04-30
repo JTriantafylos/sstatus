@@ -7,6 +7,12 @@
 
 class StatusItem {
   public:
+    StatusItem(std::string  s,
+               std::string  fg,
+               std::string  bg,
+               std::string  bc,
+               long i);
+
     std::string getJsonText();
 
     std::string getFullText();
@@ -17,19 +23,9 @@ class StatusItem {
 
     std::string getBorderColor();
 
-    long getInterval();
+    [[nodiscard]] long getInterval() const;
 
     [[nodiscard]] bool hasSeparatorAfter() const;
-
-    void setForegroundColor(const std::string&);
-
-    void setBackgroundColor(const std::string&);
-
-    void setBorderColor(const std::string&);
-
-    void setScript(const std::string&);
-
-    void setInterval(long i);
 
   protected:
     std::string fullText;
@@ -57,7 +53,7 @@ class StatusItem {
 
     std::string script;
 
-    long interval;             // Number of milliseconds between refreshing this StatusItem
+    long interval;            // Number of milliseconds between refreshing this StatusItem
     bool persistent = false;  // Whether or not the script has been run for the
                               // first time when interval is set to -1
   private:

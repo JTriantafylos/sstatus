@@ -25,7 +25,6 @@ class Control {
     std::vector<std::shared_ptr<StatusItem>> mStatusItems;
     std::vector<StatusItemThread> mStatusItemThreads;
     std::vector<std::string> mStatusItemTextArray;
-    ConfigParser mConfigParser;
     moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>> mStatusItemUpdateQueue;
 };
 

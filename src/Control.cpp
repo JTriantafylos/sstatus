@@ -1,10 +1,17 @@
 #include "sstatus/Control.h"
 
 [[noreturn]] void Control::launch() {
-    mConfigParser.init(getConfigFilePath());
+    std::vector<StatusItem*> statusItems;
+    try {
+        statusItems = ConfigParser::loadStatusItemsFromConfig(getConfigFilePath());
+    } catch (std::exception& err) {
+        StreamWriter::initJSONStream();
+        StreamWriter::writeError(err.what());
+        std::this_thread::sleep_for(std::chrono::hours::max());
+    }
 
     int idCount = 0;
-    for (StatusItem* statusItem : mConfigParser.loadStatusItems()) {
+    for (StatusItem* statusItem : statusItems) {
         mStatusItemThreads.emplace_back(statusItem, idCount++, &mStatusItemUpdateQueue);
         mStatusItemTextArray.emplace_back("");
     }
@@ -25,13 +32,11 @@
 
 void Control::generateStatus() {
     StreamWriter::beginStatusItemArray();
-    for (auto it = mStatusItemTextArray.begin(); it != mStatusItemTextArray.end(); ++it) {
-        bool lastItem = false;
-        if (it + 1 == mStatusItemTextArray.end())
-            lastItem = true;
-        std::string text = *it;
+    bool firstItem = true;
+    for (const std::string& text: mStatusItemTextArray) {
         if (!text.empty()) {
-            StreamWriter::writeStatusItem(text, lastItem);
+            StreamWriter::writeStatusItem(text, firstItem);
+            firstItem = false;
         }
     }
     StreamWriter::endStatusItemArray();
