@@ -11,13 +11,6 @@ void ConfigParser::init(const std::string& configFile) {
     }
 }
 
-int ConfigParser::loadRefreshTime() {
-    auto generalSettingsTable = mConfig["General"];
-    return generalSettingsTable.as_table()
-        ->get_as<int64_t>("RefreshTime")
-        ->get();  // TODO: Handle conversion of int64_t to int
-}
-
 std::vector<StatusItem*> ConfigParser::loadStatusItems() {
     std::vector<StatusItem*> items;
 
@@ -36,8 +29,7 @@ std::vector<StatusItem*> ConfigParser::loadStatusItems() {
         mItem->setBackgroundColor(currItem->get_as<std::string>("BackgroundColor")->get());
         mItem->setBorderColor(currItem->get_as<std::string>("BorderColor")->get());
         mItem->setScript(currItem->get_as<std::string>("Script")->get());
-        mItem->setInterval((currItem->get_as<int64_t>("Interval")
-                                ->get()));  // TODO: Handle conversion of int64_t to int
+        mItem->setInterval((currItem->get_as<long>("Interval")->get()));
 
         items.push_back(mItem);
     }

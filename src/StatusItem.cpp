@@ -5,22 +5,8 @@ std::string StatusItem::getJsonText() {
 }
 
 std::string StatusItem::getFullText() {
-    if (interval == -1) {
-        if (!persistent) {
-            fullText = ShellInterpreter::interpret(script);
-            persistent = true;
-        }
-        return fullText;
-    }
-
-    if (currentInterval > 1) {
-        currentInterval--;
-        return fullText;
-    } else {
-        fullText = ShellInterpreter::interpret(script);
-        currentInterval = interval;
-        return fullText;
-    }
+    fullText = ShellInterpreter::interpret(script);
+    return fullText;
 }
 
 std::string StatusItem::getForegroundColor() {
@@ -39,8 +25,8 @@ bool StatusItem::hasSeparatorAfter() const {
     return separatorAfter;
 }
 
-std::string StatusItem::getScript() {
-    return script;
+long StatusItem::getInterval() {
+    return interval;
 }
 
 void StatusItem::setForegroundColor(const std::string& fg) {
@@ -59,7 +45,7 @@ void StatusItem::setScript(const std::string& s) {
     script = s;
 }
 
-void StatusItem::setInterval(int i) {
+void StatusItem::setInterval(long i) {
     interval = i;
 }
 

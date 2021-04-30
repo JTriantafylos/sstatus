@@ -17,9 +17,9 @@ class StatusItem {
 
     std::string getBorderColor();
 
-    [[nodiscard]] bool hasSeparatorAfter() const;
+    long getInterval();
 
-    std::string getScript();
+    [[nodiscard]] bool hasSeparatorAfter() const;
 
     void setForegroundColor(const std::string&);
 
@@ -29,7 +29,7 @@ class StatusItem {
 
     void setScript(const std::string&);
 
-    void setInterval(int);
+    void setInterval(long i);
 
   protected:
     std::string fullText;
@@ -57,8 +57,7 @@ class StatusItem {
 
     std::string script;
 
-    int interval;             // Number of refresh cycles between refreshing this StatusItem
-    int currentInterval = 0;  // Number of refresh cycles before the next script refresh
+    long interval;             // Number of milliseconds between refreshing this StatusItem
     bool persistent = false;  // Whether or not the script has been run for the
                               // first time when interval is set to -1
   private:

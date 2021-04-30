@@ -15,7 +15,6 @@ class ConfigParser {
   public:
     void init(const std::string& configFile);
     std::vector<StatusItem*> loadStatusItems();
-    int loadRefreshTime();
 
   private:
     toml::table mConfig;
