@@ -5,9 +5,8 @@
 
     int idCount = 0;
     for (StatusItem* statusItem : mConfigParser.loadStatusItems()) {
-        mStatusItemThreads.emplace_back(statusItem, idCount, &mStatusItemUpdateQueue);
+        mStatusItemThreads.emplace_back(statusItem, idCount++, &mStatusItemUpdateQueue);
         mStatusItemTextArray.emplace_back("");
-        idCount++;
     }
 
     StreamWriter::initJSONStream();
