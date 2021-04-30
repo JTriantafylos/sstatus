@@ -14,14 +14,19 @@ StatusItemThread::StatusItemThread(
     std::string lastJsonText;
 
     while (true) {
-        //  TODO: Account for the time that this call takes
+        auto startTime = std::chrono::high_resolution_clock::now();
+
         std::string newJsonText = statusItem->getJsonText();
         if (newJsonText != lastJsonText) {
             lastJsonText = newJsonText;
             queue->enqueue(std::pair<std::string, int>(lastJsonText, id));
         }
 
-        // TODO: Get proper timout time from status item
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        auto endTime = std::chrono::high_resolution_clock::now();
+        auto runDuration =
+            std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+        auto sleepDuration = statusItem->getInterval() - runDuration.count();
+        // TODO: Look into one thread sleeping blocking the others
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleepDuration));
     }
 }
