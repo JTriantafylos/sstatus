@@ -18,9 +18,9 @@ class StatusItemThread {
         moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue);
 
   private:
-    [[noreturn]] void run(StatusItem* statusItem,
-                          int id,
-                          moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue);
+    void run(StatusItem* statusItem,
+             int id,
+             moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue);
 
     std::thread mThread;
 };

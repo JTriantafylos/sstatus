@@ -7,7 +7,7 @@ StatusItemThread::StatusItemThread(
     mThread = std::thread([&, statusItem, id, queue]() { run(statusItem, id, queue); });
 }
 
-[[noreturn]] void StatusItemThread::run(
+void StatusItemThread::run(
     StatusItem* statusItem,
     int id,
     moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue) {
@@ -20,6 +20,10 @@ StatusItemThread::StatusItemThread(
         if (newJsonText != lastJsonText) {
             lastJsonText = newJsonText;
             queue->enqueue(std::pair<std::string, int>(lastJsonText, id));
+        }
+
+        if(statusItem->getInterval() == -1) {
+            return;
         }
 
         auto endTime = std::chrono::high_resolution_clock::now();
