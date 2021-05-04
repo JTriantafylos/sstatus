@@ -7,6 +7,7 @@
     } catch (std::exception& err) {
         StreamWriter::initJSONStream();
         StreamWriter::writeError(err.what());
+        // TODO: Find a cleaner way to pause execution after an error
         std::this_thread::sleep_for(std::chrono::hours::max());
     }
 
