@@ -13,6 +13,9 @@ void StatusItemThread::run(
     moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue) {
     std::string lastJsonText;
 
+    std::string loadingJsonText = generateStatusItemJsonString("Loading...", *statusItem);
+    queue->enqueue(std::pair<std::string, int>(loadingJsonText, id));
+
     while (true) {
         auto startTime = std::chrono::high_resolution_clock::now();
 
@@ -22,7 +25,7 @@ void StatusItemThread::run(
             queue->enqueue(std::pair<std::string, int>(lastJsonText, id));
         }
 
-        if(statusItem->getInterval() == -1) {
+        if (statusItem->getInterval() == -1) {
             return;
         }
 
@@ -36,12 +39,17 @@ void StatusItemThread::run(
 }
 
 std::string StatusItemThread::generateStatusItemJsonString(StatusItem& item) {
+    std::string script = item.getScript();
+    std::string fullText = ShellInterpreter::interpret(script);
+    return generateStatusItemJsonString(fullText, item);
+}
+
+std::string StatusItemThread::generateStatusItemJsonString(const std::string& fullText,
+                                                           StatusItem& item) {
     std::string jsonString;
 
     jsonString.append("{");
 
-    std::string script = item.getScript();
-    std::string fullText = ShellInterpreter::interpret(script);
     if (!fullText.empty()) {
         jsonString.append("\"full_text\": ");
         jsonString.append("\"");

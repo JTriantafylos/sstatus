@@ -21,8 +21,9 @@ class StatusItemThread {
     static void run(StatusItem* statusItem,
                     int id,
                     moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue);
+    static std::string generateStatusItemJsonString(const std::string& fullText, StatusItem& item);
     static std::string generateStatusItemJsonString(StatusItem& item);
-
+    
     std::thread mThread;
 };
 
