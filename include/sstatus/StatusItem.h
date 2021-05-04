@@ -7,11 +7,7 @@
 
 class StatusItem {
   public:
-    StatusItem(std::string  s,
-               std::string  fg,
-               std::string  bg,
-               std::string  bc,
-               long i);
+    StatusItem(std::string s, std::string fg, std::string bg, std::string bc, long i);
 
     std::string getScript();
     std::string getForegroundColor();
@@ -26,7 +22,7 @@ class StatusItem {
     std::string backgroundColor;
     std::string borderColor;
     bool separatorAfter = true;
-    long interval; // Number of milliseconds between refreshing this StatusItem
+    long interval;  // Number of milliseconds between refreshing this StatusItem
 };
 
 #endif
