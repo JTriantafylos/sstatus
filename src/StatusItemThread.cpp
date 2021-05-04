@@ -1,15 +1,16 @@
 #include "sstatus/StatusItemThread.h"
 
 StatusItemThread::StatusItemThread(
-    StatusItem* statusItem,
     int id,
-    moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue)
-    : std::thread([&, statusItem, id, queue]() { run(id, statusItem, queue); }) {}
+    const std::shared_ptr<StatusItem>& statusItem,
+    const std::shared_ptr<moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>>& queue)
+    : std::thread([statusItem, id, queue]() { run(id, statusItem, queue); }) {}
 
 void StatusItemThread::run(
     int id,
-    StatusItem* statusItem,
-    moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue) {
+    const std::shared_ptr<StatusItem>& statusItem,
+    const std::shared_ptr<moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>>&
+        queue) {
     std::string lastJsonText;
 
     std::string loadingJsonText = generateStatusItemJsonString("Loading...", *statusItem);

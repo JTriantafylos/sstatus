@@ -1,9 +1,15 @@
 #include "sstatus/Control.h"
 
-[[noreturn]] void Control::launch() {
-    std::vector<StatusItem*> statusItems;
+Control::Control()
+    : mStatusItemUpdateQueue(new moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>) {
+}
+
+// TODO: Find a way to termite all StatusItemThreads on destruction of Control object
+Control::~Control() = default;
+
+void Control::launch() {
     try {
-        statusItems = ConfigParser::loadStatusItemsFromConfig(getConfigFilePath());
+        mStatusItems = ConfigParser::loadStatusItemsFromConfig(getConfigFilePath());
     } catch (std::exception& err) {
         StreamWriter::initJSONStream();
         StreamWriter::writeError(err.what());
@@ -12,19 +18,23 @@
     }
 
     int idCount = 0;
-    for (StatusItem* statusItem : statusItems) {
-        mStatusItemThreads.emplace_back(statusItem, idCount++, &mStatusItemUpdateQueue);
+    for (const std::shared_ptr<StatusItem>& statusItem : mStatusItems) {
+        mStatusItemThreads.emplace_back(idCount++, statusItem, mStatusItemUpdateQueue);
         mStatusItemTextArray.emplace_back("");
     }
 
     StreamWriter::initJSONStream();
+    run();
+}
+
+[[noreturn]] void Control::run() {
     while (true) {
         std::pair<std::string, int> updatedItem;
 
-        mStatusItemUpdateQueue.wait_dequeue(updatedItem);
+        mStatusItemUpdateQueue->wait_dequeue(updatedItem);
         mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
 
-        while (mStatusItemUpdateQueue.try_dequeue(updatedItem)) {
+        while (mStatusItemUpdateQueue->try_dequeue(updatedItem)) {
             mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
         }
         generateStatus();
@@ -34,7 +44,7 @@
 void Control::generateStatus() {
     StreamWriter::beginStatusItemArray();
     bool firstItem = true;
-    for (const std::string& text: mStatusItemTextArray) {
+    for (const std::string& text : mStatusItemTextArray) {
         if (!text.empty()) {
             StreamWriter::writeStatusItem(text, firstItem);
             firstItem = false;

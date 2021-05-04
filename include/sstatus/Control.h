@@ -16,16 +16,20 @@
 
 class Control {
   public:
-    [[noreturn]] void launch();
+    Control();
+    ~Control();
+    void launch();
 
   private:
+    [[noreturn]] void run();
     void generateStatus();
     static std::string getConfigFilePath();
 
     std::vector<std::shared_ptr<StatusItem>> mStatusItems;
     std::vector<StatusItemThread> mStatusItemThreads;
     std::vector<std::string> mStatusItemTextArray;
-    moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>> mStatusItemUpdateQueue;
+    std::shared_ptr<moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>>
+        mStatusItemUpdateQueue;
 };
 
 #endif

@@ -1,9 +1,9 @@
 #include "sstatus/ConfigParser.h"
 
-std::vector<StatusItem*> ConfigParser::loadStatusItemsFromConfig(
+std::vector<std::shared_ptr<StatusItem>> ConfigParser::loadStatusItemsFromConfig(
     const std::string& configFilePath) {
     toml::table config;
-    std::vector<StatusItem*> items;
+    std::vector<std::shared_ptr<StatusItem>> items;
 
     try {
         config = toml::parse_file(configFilePath);
@@ -18,21 +18,17 @@ std::vector<StatusItem*> ConfigParser::loadStatusItemsFromConfig(
         /*
          * TODO: Implement other status item fields
          */
-        StatusItem* item;
+        std::shared_ptr<StatusItem> item;
         if (isValidStatusItem(statusItemsArray[i])) {
             std::string s = statusItemsArray[i]["Script"].value_or("");
             std::string fg = statusItemsArray[i]["ForegroundColor"].value_or("");
             std::string bg = statusItemsArray[i]["BackgroundColor"].value_or("");
             std::string bc = statusItemsArray[i]["BorderColor"].value_or("");
             long interval = statusItemsArray[i]["Interval"].value_or(-1);
-            item = new StatusItem(s, fg, bg, bc, interval);
+            item = std::make_shared<StatusItem>(s, fg, bg, bc, interval);
         } else {
-            std::string s = "echo \"Malformed status item configuration!\"";
-            std::string fg = "#ff0000";
-            std::string bg;
-            std::string bc;
-            long interval = -1;
-            item = new StatusItem(s, fg, bg, bc, interval);
+            item = std::make_shared<StatusItem>("echo \"Malformed status item configuration!\"",
+                                                "#ff0000", "", "", -1);
         }
         items.push_back(item);
     }

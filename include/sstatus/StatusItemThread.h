@@ -13,14 +13,15 @@
 class StatusItemThread : public std::thread {
   public:
     explicit StatusItemThread(
-        StatusItem* statusItem,
         int id,
-        moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue);
+        const std::shared_ptr<StatusItem>& statusItem,
+        const std::shared_ptr<moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>>& queue);
 
   private:
-    static void run(int id,
-                    StatusItem* statusItem,
-                    moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue);
+    static void run(
+        int id,
+        const std::shared_ptr<StatusItem>& statusItem,
+        const std::shared_ptr<moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>>& queue);
     static std::string generateStatusItemJsonString(const std::string& fullText, StatusItem& item);
     static std::string generateStatusItemJsonString(StatusItem& item);
 };
