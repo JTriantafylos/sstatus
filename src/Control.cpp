@@ -4,7 +4,7 @@ Control::Control()
     : mStatusItemUpdateQueue(new moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>) {
 }
 
-// TODO: Find a way to termite all StatusItemThreads on destruction of Control object
+// TODO: Find a way to terminate all StatusItemThreads on destruction of Control object
 Control::~Control() = default;
 
 void Control::launch() {
