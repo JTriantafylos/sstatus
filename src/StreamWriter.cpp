@@ -48,14 +48,16 @@ void StreamWriter::initJSONStream() {
     header.append("1");
     header.append("}");
     std::cout << header;
-
     std::cout << "[";
+    std::cout << std::flush;
 }
 
 void StreamWriter::beginStatusItemArray() {
     std::cout << "[";
+    std::cout << std::flush;
 }
 
 void StreamWriter::endStatusItemArray() {
     std::cout << "],";
+    std::cout << std::flush;
 }
