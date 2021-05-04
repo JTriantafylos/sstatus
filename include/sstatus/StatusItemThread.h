@@ -10,7 +10,7 @@
 
 #include "sstatus/StatusItem.h"
 
-class StatusItemThread {
+class StatusItemThread : public std::thread {
   public:
     explicit StatusItemThread(
         StatusItem* statusItem,
@@ -18,13 +18,11 @@ class StatusItemThread {
         moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue);
 
   private:
-    static void run(StatusItem* statusItem,
-                    int id,
+    static void run(int id,
+                    StatusItem* statusItem,
                     moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue);
     static std::string generateStatusItemJsonString(const std::string& fullText, StatusItem& item);
     static std::string generateStatusItemJsonString(StatusItem& item);
-    
-    std::thread mThread;
 };
 
 #endif

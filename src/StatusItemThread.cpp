@@ -3,13 +3,12 @@
 StatusItemThread::StatusItemThread(
     StatusItem* statusItem,
     int id,
-    moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue) {
-    mThread = std::thread([&, statusItem, id, queue]() { run(statusItem, id, queue); });
-}
+    moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue)
+    : std::thread([&, statusItem, id, queue]() { run(id, statusItem, queue); }) {}
 
 void StatusItemThread::run(
-    StatusItem* statusItem,
     int id,
+    StatusItem* statusItem,
     moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>* queue) {
     std::string lastJsonText;
 
