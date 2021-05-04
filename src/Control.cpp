@@ -21,13 +21,13 @@
     while (true) {
         std::pair<std::string, int> updatedItem;
 
+        mStatusItemUpdateQueue.wait_dequeue(updatedItem);
+        mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
+
         while (mStatusItemUpdateQueue.try_dequeue(updatedItem)) {
             mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
         }
         generateStatus();
-
-        mStatusItemUpdateQueue.wait_dequeue(updatedItem);
-        mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
     }
 }
 
