@@ -2,7 +2,7 @@
 #define SHELLINTERPRETER_H
 
 #include <array>
-#include <memory>
+#include <stdexcept>
 #include <string>
 
 class ShellInterpreter {
