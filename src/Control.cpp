@@ -1,8 +1,6 @@
 #include "sstatus/Control.h"
 
-Control::Control()
-    : mStatusItemUpdateQueue(new moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>) {
-}
+Control::Control() : mStatusItemUpdateQueue(new moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>) {}
 
 // TODO: Find a way to terminate all StatusItemThreads on destruction of Control object
 Control::~Control() = default;
