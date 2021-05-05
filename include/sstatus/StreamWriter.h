@@ -7,6 +7,7 @@
 
 #include "sstatus/StatusItem.h"
 
+// TODO: Consider changing this from a class to a namespace
 class StreamWriter {
   public:
     static void writeError(const std::string&);
