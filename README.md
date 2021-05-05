@@ -11,7 +11,7 @@ Each status item is assigned to a unique thread. This allows status items with l
 ## Configuration
 Configuration for sstatus is done via a simple TOML file where each individual status item is defined.
 
-The default location for the config file is: `${XDG_CONFIG_HOME}/sstatus/config.toml`, though `/home/${USER}/sstatus/config.toml` will be used as a fallback location.
+The default location for the configuration file is: `${XDG_CONFIG_HOME}/sstatus/config.toml`, though `${HOME}/.config/sstatus/config.toml` will be used as a fallback location.
 
 ## Build
 sstatus can be built from source by executing the below commands:
