@@ -6,7 +6,7 @@
 #include <mutex>
 #include <thread>
 
-#include "blockingconcurrentqueue.h"
+#include "concurrentqueue/blockingconcurrentqueue.h"
 
 #include "sstatus/StatusItem.h"
 

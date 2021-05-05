@@ -7,7 +7,7 @@
 #include <thread>
 #include <vector>
 
-#include "blockingconcurrentqueue.h"
+#include "concurrentqueue/blockingconcurrentqueue.h"
 
 #include "sstatus/ConfigParser.h"
 #include "sstatus/StatusItem.h"

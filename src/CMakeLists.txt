@@ -13,9 +13,6 @@ target_sources(sstatus
 set_property(TARGET sstatus PROPERTY CXX_STANDARD 17)
 set_property(TARGET sstatus PROPERTY RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-target_include_directories(sstatus
-        PRIVATE ${PROJECT_SOURCE_DIR}/include
-        PRIVATE ${PROJECT_SOURCE_DIR}/tomlplusplus/include
-        PRIVATE ${PROJECT_SOURCE_DIR}/concurrentqueue)
+target_include_directories(sstatus PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(sstatus pthread)
