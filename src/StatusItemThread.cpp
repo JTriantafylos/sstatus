@@ -33,7 +33,6 @@ void StatusItemThread::run(
         auto runDuration =
             std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
         auto sleepDuration = statusItem->getInterval() - runDuration.count();
-        // TODO: Look into one thread sleeping blocking the others
         std::this_thread::sleep_for(std::chrono::milliseconds(sleepDuration));
     }
 }
