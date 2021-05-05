@@ -23,9 +23,8 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
+$ make install
 ```
-
-The sstatus binary will then be located at `bin/sstatus` located in the sstatus repository root directory.
 
 ## Dependencies
 

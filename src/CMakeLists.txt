@@ -16,3 +16,6 @@ set_property(TARGET sstatus PROPERTY RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_D
 target_include_directories(sstatus PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(sstatus pthread)
+
+install(TARGETS sstatus
+        RUNTIME DESTINATION bin)
