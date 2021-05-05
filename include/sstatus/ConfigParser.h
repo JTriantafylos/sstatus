@@ -16,7 +16,7 @@ class ConfigParser {
     static std::vector<std::shared_ptr<StatusItem>> loadStatusItemsFromConfig(const std::string& configFilePath);
 
   private:
-    static bool isValidStatusItem(toml::node_view<toml::node> node);
+    static bool isValidStatusItem(const toml::table& table);
 };
 
 #endif
