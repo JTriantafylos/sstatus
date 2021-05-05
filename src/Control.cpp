@@ -23,7 +23,7 @@ void Control::launch() {
         mStatusItemThreads.emplace_back(idCount++, statusItem, mStatusItemUpdateQueue);
         mStatusItemTextArray.emplace_back("");
     }
-    
+
     run();
 }
 
