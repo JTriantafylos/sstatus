@@ -40,7 +40,12 @@ void StatusItemThread::run(
 
 std::string StatusItemThread::generateStatusItemJsonString(StatusItem& item) {
     std::string script = item.getScript();
-    std::string fullText = ShellInterpreter::interpret(script);
+    std::string fullText;
+    try {
+        fullText = ShellInterpreter::interpret(script);
+    } catch (std::exception& err) {
+        fullText = err.what();
+    }
     return generateStatusItemJsonString(fullText, item);
 }
 
