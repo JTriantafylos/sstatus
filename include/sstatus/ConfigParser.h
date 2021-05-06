@@ -11,13 +11,8 @@
 
 #include <tomlplusplus/include/toml++/toml.h>
 
-// TODO: Consider changing this from a class to a namespace
-class ConfigParser {
-  public:
-    static std::vector<std::shared_ptr<StatusItem>> loadStatusItemsFromConfig(const std::string& configFilePath);
-
-  private:
-    static bool isValidStatusItem(const toml::table& table);
-};
+namespace ConfigParser {
+    std::vector<std::shared_ptr<StatusItem>> loadStatusItemsFromConfig(const std::string& configFilePath);
+}
 
 #endif
