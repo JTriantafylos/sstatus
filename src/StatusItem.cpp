@@ -2,33 +2,33 @@
 
 #include <utility>
 
-StatusItem::StatusItem(std::string s, std::string fg, std::string bg, std::string bc, const long i)
-    : script(std::move(s)),
-      foregroundColor(std::move(fg)),
-      backgroundColor(std::move(bg)),
-      borderColor(std::move(bc)),
-      interval(i) {}
+StatusItem::StatusItem(std::string script, std::string foregroundColor, std::string backgroundColor, std::string borderColor, const long interval)
+    : mScript(std::move(script)),
+      mForegroundColor(std::move(foregroundColor)),
+      mBackgroundColor(std::move(backgroundColor)),
+      mBorderColor(std::move(borderColor)),
+      mInterval(interval) {}
 
 std::string StatusItem::getScript() {
-    return script;
+    return mScript;
 }
 
 std::string StatusItem::getForegroundColor() {
-    return foregroundColor;
+    return mForegroundColor;
 }
 
 std::string StatusItem::getBackgroundColor() {
-    return backgroundColor;
+    return mBackgroundColor;
 }
 
 std::string StatusItem::getBorderColor() {
-    return borderColor;
+    return mBorderColor;
 }
 
 long StatusItem::getInterval() const {
-    return interval;
+    return mInterval;
 }
 
 bool StatusItem::hasSeparatorAfter() const {
-    return separatorAfter;
+    return mSeparatorAfter;
 }
