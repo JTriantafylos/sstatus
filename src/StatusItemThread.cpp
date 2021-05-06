@@ -39,6 +39,7 @@ std::string StatusItemThread::generateStatusItemJsonString(StatusItem& item) {
     std::string script = item.getScript();
     std::string fullText;
     try {
+        // TODO: Escape characters such as double quotes
         fullText = ShellInterpreter::interpret(script);
     } catch (std::exception& err) {
         fullText = err.what();
