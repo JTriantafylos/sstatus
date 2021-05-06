@@ -30,15 +30,17 @@ std::vector<std::shared_ptr<StatusItem>> ConfigParser::loadStatusItemsFromConfig
             std::shared_ptr<StatusItem> item;
             toml::table* table = config[statusItemName].as_table();
             if (isValidStatusItem(*table)) {
+                std::string in = std::string(statusItemName + "_" + std::to_string(i));
                 std::string s = table->get("Script")->value_or("");
                 std::string fg = table->get("ForegroundColor")->value_or("");
                 std::string bg = table->get("BackgroundColor")->value_or("");
                 std::string bc = table->get("BorderColor")->value_or("");
+                bool sep = table->get("SeparatorAfter")->value_or(true);
                 long interval = table->get("Interval")->value_or(-1);
-                item = std::make_shared<StatusItem>(s, fg, bg, bc, interval);
+                item = std::make_shared<StatusItem>(statusItemName, in, s, fg, bg, bc, sep, interval);
             } else {
-                item = std::make_shared<StatusItem>("echo \"Malformed status item configuration!\"", "#ff0000", "", "",
-                                                    -1);
+                item = std::make_shared<StatusItem>("", "", "echo \"Malformed status item configuration!\"", "#ff0000",
+                                                    "", "", true, -1);
             }
             items.push_back(item);
         }

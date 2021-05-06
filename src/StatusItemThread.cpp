@@ -60,6 +60,24 @@ std::string StatusItemThread::generateStatusItemJsonString(const std::string& fu
         jsonString.append(",");
     }
 
+    std::string name = item.getName();
+    if (!name.empty()) {
+        jsonString.append("\"name\": ");
+        jsonString.append("\"");
+        jsonString.append(name);
+        jsonString.append("\"");
+        jsonString.append(",");
+    }
+
+    std::string instance = item.getInstance();
+    if (!instance.empty()) {
+        jsonString.append("\"instance\": ");
+        jsonString.append("\"");
+        jsonString.append(instance);
+        jsonString.append("\"");
+        jsonString.append(",");
+    }
+
     std::string foregroundColor = item.getForegroundColor();
     if (!foregroundColor.empty()) {
         jsonString.append("\"color\": ");
