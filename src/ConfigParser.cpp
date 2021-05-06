@@ -10,13 +10,25 @@ std::vector<std::shared_ptr<StatusItem>> ConfigParser::loadStatusItemsFromConfig
         throw err;
     }
 
-    // TODO: Implement a way for the order of the status items to be specified in the config file
-    for (auto node : config) {
-        if (toml::table* table = node.second.as_table()) {
-            std::string name = node.first;
+    if (config["Order"].is_array()) {
+        toml::array* orderArray = config["Order"].as_array();
+        for (int i = 0; i < orderArray->size(); ++i) {
+            const toml::node* orderItem = orderArray->get(i);
+            if (!orderItem->is_string()) {
+                std::string errorMessage("Invalid status item listed in order array at position [" + std::to_string(i) +
+                                         "]!");
+                throw std::runtime_error(errorMessage);
+            }
+
+            std::string statusItemName = orderItem->as_string()->get();
+            if (!config[statusItemName]) {
+                std::string errorMessage("Non-existent status item '" + statusItemName + "' listed in order array!");
+                throw std::runtime_error(errorMessage);
+            }
 
             // TODO: Implement other status item fields
             std::shared_ptr<StatusItem> item;
+            toml::table* table = config[statusItemName].as_table();
             if (isValidStatusItem(*table)) {
                 std::string s = table->get("Script")->value_or("");
                 std::string fg = table->get("ForegroundColor")->value_or("");
@@ -30,6 +42,8 @@ std::vector<std::shared_ptr<StatusItem>> ConfigParser::loadStatusItemsFromConfig
             }
             items.push_back(item);
         }
+    } else {
+        throw std::runtime_error("Status item order array is not defined!");
     }
     return items;
 }
