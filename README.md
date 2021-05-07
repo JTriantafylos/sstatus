@@ -2,11 +2,11 @@
 
 ## About
 
-sstatus is a lightweight, multi-threaded status line generator to be used with i3bar which comes bundled with the [i3](https://github.com/i3/i3) window manager.
+sstatus is a lightweight, multi-threaded status line generator to be used with i3bar, which comes bundled with the [i3](https://github.com/i3/i3) window manager.
 
-We aim to follow the Unix philosophy of doing one thing well which is why sstatus does not come with *preset* status items. Each status item is intended to consist of style properties, a time interval specifying how often it should be refreshed, and a shell command specifying what should be displayed to the user. This helps to keep sstatus as lightweight and simple as possible while still allowing nearly infinite customization.
+This project aims to follow the Unix philosophy of doing one thing well which is why sstatus does not come with *preset* status items. Each status item is intended to consist of style properties, a time interval specifying how often it should be refreshed, and a shell command specifying what should be displayed to the user. This helps to keep sstatus as lightweight and simple as possible while still allowing nearly infinite customization.
 
-Each status item is assigned to a unique thread. This allows status items with long running shell commands (such as web requests) to not block the execution of other status items. This architecture also allows for only the relevant status item to be updated once its interval times out, cutting down on the performance impact of the status bar.
+Each status item is assigned to a unique execution thread. This allows status items with long running shell commands (such as web requests) to not block the execution of other status items. This architecture also allows for only the relevant status item to be updated once its interval times out, cutting down on the performance impact of the status bar.
 
 ## Configuration
 Configuration for sstatus is done via a TOML file where each individual status item is defined.
@@ -59,8 +59,9 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ make install
+$ make install # Can be omitted if you intend to use the binary in ../bin/
 ```
+
 
 ## Dependencies
 
