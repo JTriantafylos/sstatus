@@ -1,0 +1,20 @@
+# Status item order within bar
+Order = [ "Weather", "Date" ]
+
+# Status item definition
+[Weather]
+Script = "curl \"wttr.in?format=\"%l:+%C+%t\"\""
+Interval = 300000
+ForegroundColor = "#99cc99"
+BackgroundColor = "#2d2d2d"
+BorderColor = "#f2f0ec"
+SeparatorAfter = true
+
+# Status item definition
+[Date]
+Script = "date +\"%l:%M:%S%p %Y-%m-%d\""
+Interval = 1000
+ForegroundColor = "#cc99cc"
+BackgroundColor = "#2d2d2d"
+BorderColor = "#f2f0ec"
+SeparatorAfter = true
