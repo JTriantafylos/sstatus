@@ -25,7 +25,7 @@ Status items can also be listed multiple times within the order array if multipl
 
 **Example:**
 
-```
+```toml
 Order = [ "StatusItem1", "StatusItem2", "StatusItem3" ]
 ```
 
@@ -37,7 +37,7 @@ Each status item's `name` property (table header) should be unique as to avoid c
 
 **Example:**
 
-```
+```toml
 [Date] # Table Header, Name property
 Script = "date +\"%l:%M:%S%p %Y-%m-%d\"" # String, Shell script which generates the text of the status item
 Interval = 1000 # Integer, Refresh interval in milliseconds
@@ -51,7 +51,7 @@ SeparatorAfter = true # Boolean, Whether or not a separator is placed after the 
 
 ## Build
 sstatus can be built from source by executing the below commands:
-```
+```shell
 $ git clone https://github.com/JTriantafylos/sstatus.git
 $ cd sstatus
 $ git submodule update --init
