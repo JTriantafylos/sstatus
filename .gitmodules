@@ -1,6 +1,0 @@
-[submodule "tomlplusplus"]
-	path = include/tomlplusplus
-	url = https://github.com/marzer/tomlplusplus.git
-[submodule "concurrentqueue"]
-	path = include/concurrentqueue
-	url = git@github.com:cameron314/concurrentqueue.git

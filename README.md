@@ -54,7 +54,6 @@ sstatus can be built from source by executing the below commands:
 ```shell
 $ git clone https://github.com/JTriantafylos/sstatus.git
 $ cd sstatus
-$ git submodule update --init
 $ mkdir build
 $ cd build
 $ cmake ..
@@ -65,5 +64,5 @@ $ make install # Can be omitted if you intend to use the binary in ../bin/
 
 ## Dependencies
 
-- [tomlplusplus](https://github.com/marzer/tomlplusplus/) (Included as a git submodule)
-- [concurrentqueue](https://github.com/cameron314/concurrentqueue) (Included as a git submodule)
+- [tomlplusplus](https://github.com/marzer/tomlplusplus/)
+- [concurrentqueue](https://github.com/cameron314/concurrentqueue)

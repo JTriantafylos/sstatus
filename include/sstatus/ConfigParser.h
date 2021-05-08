@@ -9,7 +9,7 @@
 #include "sstatus/ShellInterpreter.h"
 #include "sstatus/StatusItem.h"
 
-#include <tomlplusplus/include/toml++/toml.h>
+#include <toml++/toml.h>
 
 namespace ConfigParser {
     std::vector<std::shared_ptr<StatusItem>> loadStatusItemsFromConfig(const std::string& configFilePath);
