@@ -51,6 +51,7 @@ SeparatorAfter = true # Boolean, Whether or not a separator is placed after the 
 
 ## Build
 sstatus can be built from source by executing the below commands:
+
 ```shell
 $ git clone https://github.com/JTriantafylos/sstatus.git
 $ cd sstatus
@@ -60,7 +61,6 @@ $ cmake ..
 $ make
 $ make install # Can be omitted if you intend to use the binary in ../bin/
 ```
-
 
 ## Dependencies
 
