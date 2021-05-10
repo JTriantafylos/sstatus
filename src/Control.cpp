@@ -24,10 +24,14 @@ Control::Control() : mStatusItemUpdateQueue(new moodycamel::BlockingConcurrentQu
 Control::~Control() = default;
 
 void Control::launch() {
+    launch(getDefaultConfigFilePath());
+}
+
+void Control::launch(const std::string& configFilePath) {
     StreamWriter::initJSONStream();
 
     try {
-        mStatusItems = ConfigParser::loadStatusItemsFromConfig(getConfigFilePath());
+        mStatusItems = ConfigParser::loadStatusItemsFromConfig(configFilePath);
     } catch (std::exception& err) {
         StreamWriter::writeError(err.what());
         // TODO: Find a cleaner way to pause execution after an error
@@ -69,10 +73,7 @@ void Control::generateStatus() {
     StreamWriter::endStatusItemArray();
 }
 
-/*
- * TODO: Add support for custom config file location.
- */
-std::string Control::getConfigFilePath() {
+std::string Control::getDefaultConfigFilePath() {
     std::string configFilePath;
 
     if (getenv("XDG_CONFIG_HOME") != nullptr) {

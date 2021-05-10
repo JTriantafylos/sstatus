@@ -18,7 +18,12 @@
 
 #include "sstatus/Control.h"
 
-int main() {
+int main(int argc, char* argv[]) {
     Control control;
-    control.launch();
+
+    if (argc == 2) {
+        control.launch(std::string(argv[1]));
+    } else {
+        control.launch();
+    }
 }

@@ -37,11 +37,12 @@ class Control {
     Control();
     ~Control();
     void launch();
+    void launch(const std::string& configFilePath);
 
   private:
     [[noreturn]] void run();
     void generateStatus();
-    static std::string getConfigFilePath();
+    static std::string getDefaultConfigFilePath();
 
     std::vector<std::shared_ptr<StatusItem>> mStatusItems;
     std::vector<StatusItemThread> mStatusItemThreads;
