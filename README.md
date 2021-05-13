@@ -8,6 +8,24 @@ This project aims to follow the Unix philosophy of doing one thing well which is
 
 Each status item is assigned to a unique execution thread. This allows status items with long running shell commands (such as web requests) to not block the execution of other status items. This architecture also allows for only the relevant status item to be updated once its interval times out, cutting down on the performance impact of the status bar.
 
+## Usage
+
+To use sstatus as your i3bar status line generator, simply install sstatus and add the following to your i3 configuration file. This will launch sstatus using the configuration file at the default location (see **Configuration**).
+
+```
+bar {
+    status_command sstatus
+}
+```
+
+If you would prefer to specify a custom configuration file location you can add that path as the first argument to sstatus as shown below.
+
+```
+bar {
+    status_command sstatus ~/custom_config.toml
+}
+```
+
 ## Configuration
 Configuration for sstatus is done via a TOML file where each individual status item is defined.
 
