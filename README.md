@@ -8,6 +8,22 @@ This project aims to follow the Unix philosophy of doing one thing well which is
 
 Each status item is assigned to a unique execution thread. This allows status items with long running shell commands (such as web requests) to not block the execution of other status items. This architecture also allows for only the relevant status item to be updated once its interval times out, cutting down on the performance impact of the status bar.
 
+## Installation
+
+sstatus is packaged for the following distros:
+
+- Arch Linux: [sstatus](https://aur.archlinux.org/packages/sstatus/) in the [AUR](https://aur.archlinux.org/)
+
+sstatus can also be built from source by executing the below commands:
+
+```shell
+$ git clone https://github.com/JTriantafylos/sstatus.git
+$ cd sstatus
+$ cmake -B build
+$ make -C build
+$ make -C build install # Can be skipped if you intend to use the binary in ./bin/
+```
+
 ## Usage
 
 To use sstatus as your i3bar status line generator, simply install sstatus and add the following to your i3 configuration file. This will launch sstatus using the configuration file at the default location (see **Configuration**).
@@ -27,6 +43,7 @@ bar {
 ```
 
 ## Configuration
+
 Configuration for sstatus is done via a TOML file where each individual status item is defined.
 
 An example configuration can be found in `config.example.toml`.
@@ -66,19 +83,6 @@ SeparatorAfter = true # Boolean, Whether or not a separator is placed after the 
 ```
 
 > **Note:** Quotes should be escaped with a backslash (\\) where necessary.
-
-## Build
-sstatus can be built from source by executing the below commands:
-
-```shell
-$ git clone https://github.com/JTriantafylos/sstatus.git
-$ cd sstatus
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
-$ make install # Can be omitted if you intend to use the binary in ../bin/
-```
 
 ## Dependencies
 
