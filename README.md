@@ -2,6 +2,16 @@
 
 sstatus is a lightweight, multi-threaded status line generator to be used with i3bar, which comes bundled with the [i3](https://github.com/i3/i3) window manager.
 
+## Table of Contents
+
+- [Goals](#goals)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+  - [Global Properties](#global-properties)
+  - [Status Items](#status-items)
+- [Dependencies](#dependencies)
+
 ## Goals
 
 This project aims to follow the Unix philosophy of doing one thing well which is why sstatus does not come with *preset* status items. Each status item is intended to consist of style properties, a time interval specifying how often it should be refreshed, and a shell command specifying what should be displayed to the user. This helps to keep sstatus as lightweight and simple as possible while still allowing nearly infinite customization.
