@@ -18,20 +18,18 @@
 
 #include "sstatus/StatusItemThread.h"
 
-StatusItemThread::StatusItemThread(
-    int id,
-    const std::shared_ptr<StatusItem>& statusItem,
-    const std::shared_ptr<moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>>& queue)
+StatusItemThread::StatusItemThread(int id,
+                                   const std::shared_ptr<StatusItem>& statusItem,
+                                   const std::shared_ptr<mpmcplusplus::Queue<std::pair<std::string, int>>>& queue)
     : std::thread([statusItem, id, queue]() { run(id, statusItem, queue); }) {}
 
-void StatusItemThread::run(
-    int id,
-    const std::shared_ptr<StatusItem>& statusItem,
-    const std::shared_ptr<moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>>& queue) {
+void StatusItemThread::run(int id,
+                           const std::shared_ptr<StatusItem>& statusItem,
+                           const std::shared_ptr<mpmcplusplus::Queue<std::pair<std::string, int>>>& queue) {
     std::string lastJsonText;
 
     std::string loadingJsonText = generateStatusItemJsonString("Loading...", *statusItem);
-    queue->enqueue(std::pair<std::string, int>(loadingJsonText, id));
+    queue->push(std::pair<std::string, int>(loadingJsonText, id));
 
     while (true) {
         auto startTime = std::chrono::high_resolution_clock::now();
@@ -39,7 +37,7 @@ void StatusItemThread::run(
         std::string newJsonText = generateStatusItemJsonString(*statusItem);
         if (newJsonText != lastJsonText) {
             lastJsonText = newJsonText;
-            queue->enqueue(std::pair<std::string, int>(lastJsonText, id));
+            queue->push(std::pair<std::string, int>(lastJsonText, id));
         }
 
         if (statusItem->getInterval() == -1) {
@@ -60,6 +58,8 @@ std::string StatusItemThread::generateStatusItemJsonString(StatusItem& item) {
         // TODO: Escape characters such as double quotes
         fullText = ShellInterpreter::interpret(script);
     } catch (std::exception& err) {
+        // TODO: Handle "Shell interpretation failed!" exception
+        // Possibly by retrying after a set amount of time?
         fullText = err.what();
     }
     return generateStatusItemJsonString(fullText, item);

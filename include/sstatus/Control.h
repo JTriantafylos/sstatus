@@ -25,7 +25,7 @@
 #include <thread>
 #include <vector>
 
-#include "concurrentqueue/blockingconcurrentqueue.h"
+#include "mpmcplusplus/mpmcplusplus.h"
 
 #include "sstatus/ConfigParser.h"
 #include "sstatus/StatusItem.h"
@@ -47,7 +47,7 @@ class Control {
     std::vector<std::shared_ptr<StatusItem>> mStatusItems;
     std::vector<StatusItemThread> mStatusItemThreads;
     std::vector<std::string> mStatusItemTextArray;
-    std::shared_ptr<moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>> mStatusItemUpdateQueue;
+    std::shared_ptr<mpmcplusplus::Queue<std::pair<std::string, int>>> mStatusItemUpdateQueue;
 };
 
 #endif

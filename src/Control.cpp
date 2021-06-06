@@ -18,7 +18,7 @@
 
 #include "sstatus/Control.h"
 
-Control::Control() : mStatusItemUpdateQueue(new moodycamel::BlockingConcurrentQueue<std::pair<std::string, int>>) {}
+Control::Control() : mStatusItemUpdateQueue(new mpmcplusplus::Queue<std::pair<std::string, int>>) {}
 
 // TODO: Find a way to terminate all StatusItemThreads on destruction of Control object
 Control::~Control() = default;
@@ -51,10 +51,10 @@ void Control::launch(const std::string& configFilePath) {
     while (true) {
         std::pair<std::string, int> updatedItem;
 
-        mStatusItemUpdateQueue->wait_dequeue(updatedItem);
+        mStatusItemUpdateQueue->wait_and_pop(updatedItem);
         mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
 
-        while (mStatusItemUpdateQueue->try_dequeue(updatedItem)) {
+        while (mStatusItemUpdateQueue->pop(updatedItem)) {
             mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
         }
         generateStatus();
