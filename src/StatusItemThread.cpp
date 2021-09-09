@@ -58,8 +58,6 @@ std::string StatusItemThread::generateStatusItemJsonString(StatusItem& item) {
         // TODO: Escape characters such as double quotes
         fullText = ShellInterpreter::interpret(script);
     } catch (std::exception& err) {
-        // TODO: Handle "Shell interpretation failed!" exception
-        // Possibly by retrying after a set amount of time?
         fullText = err.what();
     }
     return generateStatusItemJsonString(fullText, item);

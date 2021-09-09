@@ -24,15 +24,20 @@ namespace ShellInterpreter {
 
         FILE* pipe = popen(script.c_str(), "r");
         if (pipe == nullptr) {
-            throw std::runtime_error("Shell interpretation failed!");
+            throw std::runtime_error("Shell interpretation failed, could not open pipe!");
         }
 
         while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
             result.append(buffer.data());
         }
 
-        if (pclose(pipe) != 0) {
-            throw std::runtime_error("Shell interpretation failed!");
+        int pipeCloseValue = pclose(pipe);
+        if (pipeCloseValue != 0) {
+            if (WIFEXITED(pipeCloseValue))
+                throw std::runtime_error("Shell interpretation failed, command terminated with exit code: " +
+                                         std::to_string(WEXITSTATUS(pipeCloseValue)));
+            else
+                throw std::runtime_error("Shell interpretation failed, command terminated abnormally!");
         }
 
         return result;
