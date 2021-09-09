@@ -22,21 +22,9 @@ namespace StreamWriter {
     void writeError(const std::string& errorText) {
         beginStatusItemArray();
 
-        std::string errorJson;
-        errorJson.append("{");
-        errorJson.append("\"full_text\": ");
-        errorJson.append("\"");
-        errorJson.append("sstatus: ");
-        errorJson.append(removeNewlines(errorText));
-        errorJson.append("\"");
-        errorJson.append(",");
-        errorJson.append("\"color\": ");
-        errorJson.append("\"");
-        errorJson.append("#ff0000");
-        errorJson.append("\"");
-        errorJson.append("}");
-
-        std::cout << errorJson;
+        std::cout << R"({"full_text": "sstatus: )";
+        std::cout << removeNewlines(errorText);
+        std::cout << R"(","color": "#ff0000"})";
 
         endStatusItemArray();
 
