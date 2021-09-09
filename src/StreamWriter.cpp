@@ -52,13 +52,7 @@ namespace StreamWriter {
     }
 
     void initJSONStream() {
-        std::string header;
-        header.append("{");
-        header.append("\"version\": ");
-        header.append("1");
-        header.append("}");
-        std::cout << header;
-        std::cout << "[";
+        std::cout << R"({"version": 1}[)";
         std::cout << std::flush;
     }
 
