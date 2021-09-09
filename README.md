@@ -97,4 +97,4 @@ SeparatorAfter = true # Boolean, Whether or not a separator is placed after the 
 ## Dependencies
 
 - [tomlplusplus](https://github.com/marzer/tomlplusplus/)
-- [concurrentqueue](https://github.com/cameron314/concurrentqueue)
+- [mpmcplusplus](https://github.com/JTriantafylos/mpmcplusplus)
