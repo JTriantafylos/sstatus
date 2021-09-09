@@ -27,7 +27,7 @@ namespace StreamWriter {
         errorJson.append("\"full_text\": ");
         errorJson.append("\"");
         errorJson.append("sstatus: ");
-        errorJson.append(errorText);
+        errorJson.append(removeNewlines(errorText));
         errorJson.append("\"");
         errorJson.append(",");
         errorJson.append("\"color\": ");
@@ -35,11 +35,6 @@ namespace StreamWriter {
         errorJson.append("#ff0000");
         errorJson.append("\"");
         errorJson.append("}");
-
-        // Remove any newline characters from the line
-        errorJson = regex_replace(errorJson, std::regex("\n+"), "<newline>");
-        // TODO: Figure out why some newline characters need the below regex to be matched
-        errorJson = regex_replace(errorJson, std::regex("\\\\n+"), "<newline>");
 
         std::cout << errorJson;
 
@@ -49,13 +44,10 @@ namespace StreamWriter {
     }
 
     void writeStatusItem(const std::string& jsonText, bool firstItem) {
-        // Remove any newline characters from the line
-        std::string newText = regex_replace(jsonText, std::regex("\n+"), "");
+        if (!firstItem)
+            std::cout << ",";
 
-        if (firstItem)
-            std::cout << newText;
-        else
-            std::cout << "," << newText;
+        std::cout << removeNewlines(jsonText);
         std::cout << std::flush;
     }
 
@@ -79,4 +71,6 @@ namespace StreamWriter {
         std::cout << "],";
         std::cout << std::flush;
     }
+
+    std::string removeNewlines(const std::string& stringIn) { return regex_replace(stringIn, std::regex("\n+"), ""); }
 }

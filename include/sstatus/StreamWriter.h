@@ -31,6 +31,7 @@ namespace StreamWriter {
     void beginStatusItemArray();
     void endStatusItemArray();
     void initJSONStream();
+    std::string removeNewlines(const std::string& stringIn);
 }
 
 #endif
