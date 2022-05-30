@@ -21,6 +21,7 @@
 int main(int argc, char* argv[]) {
     Control control;
 
+    // TODO: Implement proper options parsing
     if (argc == 2) {
         control.launch(std::string(argv[1]));
     } else {
