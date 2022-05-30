@@ -40,7 +40,9 @@ namespace StreamWriter {
     }
 
     void initJSONStream() {
-        std::cout << R"({"version": 1}[)";
+        std::cout << R"({"version": 1})";
+        std::cout << std::endl;
+        std::cout << "[";
         std::cout << std::flush;
     }
 
