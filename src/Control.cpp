@@ -23,10 +23,6 @@ Control::Control() : mStatusItemUpdateQueue(new mpmcplusplus::Queue<std::pair<st
 // TODO: Find a way to terminate all StatusItemThreads on destruction of Control object
 Control::~Control() = default;
 
-void Control::launch() {
-    launch(getDefaultConfigFilePath());
-}
-
 void Control::launch(const std::string& configFilePath) {
     StreamWriter::initJSONStream();
 
@@ -71,21 +67,4 @@ void Control::generateStatus() {
         }
     }
     StreamWriter::endStatusItemArray();
-}
-
-std::string Control::getDefaultConfigFilePath() {
-    std::string configFilePath;
-
-    if (getenv("XDG_CONFIG_HOME") != nullptr) {
-        configFilePath = getenv("XDG_CONFIG_HOME");
-        configFilePath.append("/sstatus");
-        configFilePath.append("/config.toml");
-    } else if (getenv("HOME") != nullptr) {
-        configFilePath = getenv("HOME");
-        configFilePath.append("/.config");
-        configFilePath.append("/sstatus");
-        configFilePath.append("/config.toml");
-    }
-
-    return configFilePath;
 }

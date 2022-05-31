@@ -16,15 +16,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <getopt.h>
+#include <filesystem>
+
 #include "sstatus/Control.h"
+
+std::string getDefaultConfigFilePath() {
+    std::string configFilePath;
+
+    if (getenv("XDG_CONFIG_HOME") != nullptr) {
+        configFilePath = getenv("XDG_CONFIG_HOME");
+        configFilePath.append("/sstatus");
+        configFilePath.append("/config.toml");
+    } else if (getenv("HOME") != nullptr) {
+        configFilePath = getenv("HOME");
+        configFilePath.append("/.config");
+        configFilePath.append("/sstatus");
+        configFilePath.append("/config.toml");
+    }
+
+    return configFilePath;
+}
 
 int main(int argc, char* argv[]) {
     Control control;
+    int opt;
+    std::string configFilePath = getDefaultConfigFilePath();
 
-    // TODO: Implement proper options parsing
-    if (argc == 2) {
-        control.launch(std::string(argv[1]));
-    } else {
-        control.launch();
+    while ((opt = getopt(argc, argv, "c:")) != -1) {
+        switch (opt) {
+            case 'c':
+                if (!std::filesystem::exists(optarg)) {
+                    std::cerr << argv[0] << ": Specified configuration file does not exist" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+                configFilePath = optarg;
+                break;
+            default:
+                exit(EXIT_FAILURE);
+        }
     }
+
+    control.launch(configFilePath);
 }
