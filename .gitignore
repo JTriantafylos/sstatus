@@ -5,8 +5,8 @@ compile_commands.json
 build/*
 bin/*
 
-# Ignore ccls cache
-.ccls-cache/
+# Ignore clangd cache
+.cache/
 
 # Ignore CLion specific folders
 .idea/
