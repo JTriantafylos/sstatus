@@ -48,7 +48,7 @@ If you would prefer to specify a custom configuration file location you can add 
 
 ```
 bar {
-    status_command sstatus ~/custom_config.toml
+    status_command sstatus -c ~/custom_config.toml
 }
 ```
 
