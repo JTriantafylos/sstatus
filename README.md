@@ -94,6 +94,10 @@ SeparatorAfter = true # Boolean, Whether or not a separator is placed after the 
 
 > **Note:** Quotes should be escaped with a backslash (\\) where necessary.
 
+## Contributing
+
+If there is a feature you would like to see in sstatus, please open an issue or even submit a pull request if you'd like to hack on sstatus yourself. I am always open to feedback!
+
 ## Dependencies
 
 - [tomlplusplus](https://github.com/marzer/tomlplusplus/)
