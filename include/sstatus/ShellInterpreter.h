@@ -19,8 +19,6 @@
 #ifndef SHELLINTERPRETER_H
 #define SHELLINTERPRETER_H
 
-#include <array>
-#include <stdexcept>
 #include <string>
 
 namespace ShellInterpreter {

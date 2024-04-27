@@ -16,7 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <array>
+#include <stdexcept>
+
 #include "sstatus/ShellInterpreter.h"
+
 namespace ShellInterpreter {
     std::string interpret(const std::string& script) {
         std::array<char, 128> buffer{};
