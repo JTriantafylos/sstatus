@@ -37,10 +37,8 @@ void Control::launch(const std::string& configFilePath) {
     }
 
     int idCount = 0;
-    for (StatusItem& statusItem : mStatusItems) {
-        mStatusItemThreads.emplace_back(idCount++, statusItem, mStatusItemUpdateQueue);
-        mStatusItemTextArray.emplace_back("");
-    }
+    for (StatusItem& statusItem : mStatusItems)
+        mStatusItemThreads.emplace_back(idCount++, statusItem, mNotifyFlag);
 
     run();
 
@@ -49,18 +47,11 @@ void Control::launch(const std::string& configFilePath) {
 
 [[noreturn]] void Control::run() {
     while (true) {
-        std::pair<std::string, int> updatedItem;
+        while (!mNotifyFlag.test())
+            mNotifyFlag.wait(false);
 
-        mStatusItemUpdateQueue.wait_and_pop(updatedItem);
-        mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
+        mStreamWriter.writeStatusItems(mStatusItems);
 
-        while (mStatusItemUpdateQueue.pop(updatedItem)) {
-            mStatusItemTextArray.at(updatedItem.second) = updatedItem.first;
-        }
-        generateStatus();
+        mNotifyFlag.clear();
     }
-}
-
-void Control::generateStatus() {
-    mStreamWriter.writeStatusItems(mStatusItems);
 }

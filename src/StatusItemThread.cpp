@@ -20,17 +20,25 @@
 
 #include "sstatus/ShellInterpreter.h"
 
+namespace {
+void modifyStatusItemText(StatusItem& statusItem,
+                          const std::string text,
+                          std::atomic_flag& notifyFlag) {
+    statusItem.setText(text);
+    notifyFlag.test_and_set();
+    notifyFlag.notify_all();
+}
+}
+
 StatusItemThread::StatusItemThread(int id,
                                    StatusItem& statusItem,
-                                   mpmcplusplus::Queue<std::pair<std::string, int>>& queue)
-    : mStatusItem(statusItem),
-    std::thread([id, &statusItem, &queue]() { run(id, statusItem, queue); }) {}
+                                   std::atomic_flag& notifyFlag)
+: std::thread([id, &statusItem, &notifyFlag]() { run(id, statusItem, notifyFlag); }) {}
 
 void StatusItemThread::run(int id,
                            StatusItem& statusItem,
-                           mpmcplusplus::Queue<std::pair<std::string, int>>& queue) {
-    std::string loadingText = "Loading...";
-    queue.push(std::pair<std::string, int>(loadingText, id));
+                           std::atomic_flag& notifyFlag) {
+    modifyStatusItemText(statusItem, "Loading...", notifyFlag);
 
     std::string lastText;
     while (true) {
@@ -45,8 +53,7 @@ void StatusItemThread::run(int id,
 
         if (text != lastText) {
             lastText = text;
-            queue.push(std::pair<std::string, int>(text, id));
-            statusItem.setText(text);
+            modifyStatusItemText(statusItem, text, notifyFlag);
         }
 
         if (statusItem.getInterval() == -1) {

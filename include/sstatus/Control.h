@@ -19,10 +19,9 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
+#include <atomic>
 #include <string>
 #include <vector>
-
-#include "mpmcplusplus/mpmcplusplus.h"
 
 #include "sstatus/StatusItem.h"
 #include "sstatus/StatusItemThread.h"
@@ -36,12 +35,11 @@ class Control {
 
   private:
     [[noreturn]] void run();
-    void generateStatus();
 
     std::vector<StatusItem> mStatusItems;
     std::vector<StatusItemThread> mStatusItemThreads;
     std::vector<std::string> mStatusItemTextArray;
-    mpmcplusplus::Queue<std::pair<std::string, int>> mStatusItemUpdateQueue;
+    std::atomic_flag mNotifyFlag;
     StreamWriter& mStreamWriter;
 };
 

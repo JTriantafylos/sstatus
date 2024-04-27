@@ -101,4 +101,3 @@ If there is a feature you would like to see in sstatus, please open an issue or 
 ## Dependencies
 
 - [tomlplusplus](https://github.com/marzer/tomlplusplus/)
-- [mpmcplusplus](https://github.com/JTriantafylos/mpmcplusplus)

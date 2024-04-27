@@ -19,9 +19,8 @@
 #ifndef STATUSITEMTHREAD_H
 #define STATUSITEMTHREAD_H
 
+#include <atomic>
 #include <thread>
-
-#include "mpmcplusplus/mpmcplusplus.h"
 
 #include "sstatus/StatusItem.h"
 
@@ -29,14 +28,12 @@ class StatusItemThread : public std::thread {
   public:
     explicit StatusItemThread(int id,
                               StatusItem& statusItem,
-                              mpmcplusplus::Queue<std::pair<std::string, int>>& queue);
+                              std::atomic_flag& notifyFlag);
 
   private:
     static void run(int id,
                     StatusItem& statusItem,
-                    mpmcplusplus::Queue<std::pair<std::string, int>>& queue);
-
-    const StatusItem& mStatusItem;
+                    std::atomic_flag& notifyFlag);
 };
 
 #endif
