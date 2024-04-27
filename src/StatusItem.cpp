@@ -37,27 +37,27 @@ StatusItem::StatusItem(std::string name,
       mSeparatorAfter(separatorAfter),
       mInterval(interval) {}
 
-std::string StatusItem::getName() {
+std::string StatusItem::getName() const {
     return mName;
 }
 
-std::string StatusItem::getInstance() {
+std::string StatusItem::getInstance() const {
     return mInstance;
 }
 
-std::string StatusItem::getScript() {
+std::string StatusItem::getScript() const {
     return mScript;
 }
 
-std::string StatusItem::getForegroundColor() {
+std::string StatusItem::getForegroundColor() const {
     return mForegroundColor;
 }
 
-std::string StatusItem::getBackgroundColor() {
+std::string StatusItem::getBackgroundColor() const {
     return mBackgroundColor;
 }
 
-std::string StatusItem::getBorderColor() {
+std::string StatusItem::getBorderColor() const {
     return mBorderColor;
 }
 

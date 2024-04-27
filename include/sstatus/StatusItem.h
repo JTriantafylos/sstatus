@@ -21,8 +21,6 @@
 
 #include <string>
 
-#include "sstatus/ShellInterpreter.h"
-
 class StatusItem {
   public:
     StatusItem(std::string name,
@@ -34,12 +32,12 @@ class StatusItem {
                bool separatorAfter,
                long interval);
 
-    std::string getName();
-    std::string getInstance();
-    std::string getScript();
-    std::string getForegroundColor();
-    std::string getBackgroundColor();
-    std::string getBorderColor();
+    std::string getName() const;
+    std::string getInstance() const;
+    std::string getScript() const;
+    std::string getForegroundColor() const;
+    std::string getBackgroundColor() const;
+    std::string getBorderColor() const;
     [[nodiscard]] long getInterval() const;
     [[nodiscard]] bool hasSeparatorAfter() const;
 

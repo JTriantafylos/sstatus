@@ -32,9 +32,9 @@ namespace ConfigParser {
         }
     }
 
-    std::vector<std::shared_ptr<StatusItem>> loadStatusItemsFromConfig(const std::string& configFilePath) {
+    std::vector<StatusItem> loadStatusItemsFromConfig(const std::string& configFilePath) {
         toml::table config;
-        std::vector<std::shared_ptr<StatusItem>> items;
+        std::vector<StatusItem> items;
 
         try {
             config = toml::parse_file(configFilePath);
@@ -67,7 +67,6 @@ namespace ConfigParser {
             }
 
             // TODO: Implement other status item fields
-            std::shared_ptr<StatusItem> item;
 
             std::string in = std::string(statusItemName + "_" + std::to_string(i));
             std::string s = table->get("Script")->value_or("");
@@ -77,7 +76,7 @@ namespace ConfigParser {
             bool sep = table->get("SeparatorAfter")->value_or(true);
             long interval = table->get("Interval")->value_or(-1);
 
-            item = std::make_shared<StatusItem>(statusItemName, in, s, fg, bg, bc, sep, interval);
+            StatusItem item(statusItemName, in, s, fg, bg, bc, sep, interval);
             items.push_back(item);
         }
         return items;

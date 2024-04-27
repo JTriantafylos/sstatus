@@ -18,40 +18,43 @@
 
 #include "sstatus/StatusItemThread.h"
 
+#include "sstatus/ShellInterpreter.h"
+
 StatusItemThread::StatusItemThread(int id,
-                                   const std::shared_ptr<StatusItem>& statusItem,
-                                   const std::shared_ptr<mpmcplusplus::Queue<std::pair<std::string, int>>>& queue)
-    : std::thread([statusItem, id, queue]() { run(id, statusItem, queue); }) {}
+                                   StatusItem& statusItem,
+                                   mpmcplusplus::Queue<std::pair<std::string, int>>& queue)
+    : mStatusItem(statusItem),
+    std::thread([statusItem, id, &queue]() { run(id, statusItem, queue); }) {}
 
 void StatusItemThread::run(int id,
-                           const std::shared_ptr<StatusItem>& statusItem,
-                           const std::shared_ptr<mpmcplusplus::Queue<std::pair<std::string, int>>>& queue) {
+                           const StatusItem& statusItem,
+                           mpmcplusplus::Queue<std::pair<std::string, int>>& queue) {
     std::string lastJsonText;
 
-    std::string loadingJsonText = generateStatusItemJsonString("Loading...", *statusItem);
-    queue->push(std::pair<std::string, int>(loadingJsonText, id));
+    std::string loadingJsonText = generateStatusItemJsonString("Loading...", statusItem);
+    queue.push(std::pair<std::string, int>(loadingJsonText, id));
 
     while (true) {
         auto startTime = std::chrono::high_resolution_clock::now();
 
-        std::string newJsonText = generateStatusItemJsonString(*statusItem);
+        std::string newJsonText = generateStatusItemJsonString(statusItem);
         if (newJsonText != lastJsonText) {
             lastJsonText = newJsonText;
-            queue->push(std::pair<std::string, int>(lastJsonText, id));
+            queue.push(std::pair<std::string, int>(lastJsonText, id));
         }
 
-        if (statusItem->getInterval() == -1) {
+        if (statusItem.getInterval() == -1) {
             return;
         }
 
         auto endTime = std::chrono::high_resolution_clock::now();
         auto runDuration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-        auto sleepDuration = statusItem->getInterval() - runDuration.count();
+        auto sleepDuration = statusItem.getInterval() - runDuration.count();
         std::this_thread::sleep_for(std::chrono::milliseconds(sleepDuration));
     }
 }
 
-std::string StatusItemThread::generateStatusItemJsonString(StatusItem& item) {
+std::string StatusItemThread::generateStatusItemJsonString(const StatusItem& item) {
     std::string script = item.getScript();
     std::string fullText;
     try {
@@ -63,7 +66,7 @@ std::string StatusItemThread::generateStatusItemJsonString(StatusItem& item) {
     return generateStatusItemJsonString(fullText, item);
 }
 
-std::string StatusItemThread::generateStatusItemJsonString(const std::string& fullText, StatusItem& item) {
+std::string StatusItemThread::generateStatusItemJsonString(const std::string& fullText, const StatusItem& item) {
     std::string jsonString;
 
     jsonString.append("{");

@@ -42,10 +42,10 @@ class Control {
     [[noreturn]] void run();
     void generateStatus();
 
-    std::vector<std::shared_ptr<StatusItem>> mStatusItems;
+    std::vector<StatusItem> mStatusItems;
     std::vector<StatusItemThread> mStatusItemThreads;
     std::vector<std::string> mStatusItemTextArray;
-    std::shared_ptr<mpmcplusplus::Queue<std::pair<std::string, int>>> mStatusItemUpdateQueue;
+    mpmcplusplus::Queue<std::pair<std::string, int>> mStatusItemUpdateQueue;
 };
 
 #endif

@@ -19,9 +19,6 @@
 #ifndef STATUSITEMTHREAD_H
 #define STATUSITEMTHREAD_H
 
-#include <condition_variable>
-#include <functional>
-#include <mutex>
 #include <thread>
 
 #include "mpmcplusplus/mpmcplusplus.h"
@@ -31,15 +28,17 @@
 class StatusItemThread : public std::thread {
   public:
     explicit StatusItemThread(int id,
-                              const std::shared_ptr<StatusItem>& statusItem,
-                              const std::shared_ptr<mpmcplusplus::Queue<std::pair<std::string, int>>>& queue);
+                              StatusItem& statusItem,
+                              mpmcplusplus::Queue<std::pair<std::string, int>>& queue);
 
   private:
     static void run(int id,
-                    const std::shared_ptr<StatusItem>& statusItem,
-                    const std::shared_ptr<mpmcplusplus::Queue<std::pair<std::string, int>>>& queue);
-    static std::string generateStatusItemJsonString(const std::string& fullText, StatusItem& item);
-    static std::string generateStatusItemJsonString(StatusItem& item);
+                    const StatusItem& statusItem,
+                    mpmcplusplus::Queue<std::pair<std::string, int>>& queue);
+    static std::string generateStatusItemJsonString(const std::string& fullText, const StatusItem& item);
+    static std::string generateStatusItemJsonString(const StatusItem& item);
+
+    const StatusItem& mStatusItem;
 };
 
 #endif

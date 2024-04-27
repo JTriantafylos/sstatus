@@ -30,7 +30,7 @@
 #include <toml++/toml.h>
 
 namespace ConfigParser {
-    std::vector<std::shared_ptr<StatusItem>> loadStatusItemsFromConfig(const std::string& configFilePath);
+    std::vector<StatusItem> loadStatusItemsFromConfig(const std::string& configFilePath);
 }
 
 #endif
