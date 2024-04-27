@@ -33,9 +33,9 @@ class StatusItem {
                bool separatorAfter,
                long interval);
     StatusItem(const StatusItem&);
-    StatusItem(StatusItem&&);
+    StatusItem(StatusItem&&) noexcept ;
     StatusItem& operator=(const StatusItem&);
-    StatusItem& operator=(StatusItem&&);
+    StatusItem& operator=(StatusItem&&) noexcept ;
 
     void setText(const std::string& text);
     std::string getText() const;

@@ -22,7 +22,7 @@
 
 namespace {
 void modifyStatusItemText(StatusItem& statusItem,
-                          const std::string text,
+                          const std::string& text,
                           std::atomic_flag& notifyFlag) {
     statusItem.setText(text);
     notifyFlag.test_and_set();

@@ -22,13 +22,9 @@ namespace ConfigParser {
     namespace {
         // TODO: If invalid, specify which field(s) is invalid
         bool isValidStatusItem(const toml::table& table) {
-            if (table["Script"].is_string() && table["ForegroundColor"].is_string() &&
+            return table["Script"].is_string() && table["ForegroundColor"].is_string() &&
                 table["BackgroundColor"].is_string() && table["BorderColor"].is_string() &&
-                table["SeparatorAfter"].is_boolean() && table["Interval"].is_number()) {
-                return true;
-            } else {
-                return false;
-            }
+                table["SeparatorAfter"].is_boolean() && table["Interval"].is_number();
         }
     }
 

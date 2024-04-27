@@ -25,9 +25,9 @@
 
 class SwaybarStreamWriter : public StreamWriter {
 public:
-    void writeError(const std::string& errorText);
-    void writeStatusItems(const std::vector<StatusItem>& statusItems);
-    void writePreamble();
+    void writeError(const std::string& errorText) override;
+    void writeStatusItems(const std::vector<StatusItem>& statusItems) override;
+    void writePreamble() override;
 };
 
 #endif

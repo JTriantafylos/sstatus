@@ -23,7 +23,7 @@
 
 namespace ShellInterpreter {
     std::string interpret(const std::string& script) {
-        std::array<char, 128> buffer{};
+        std::array<char, pipeBufferSize> buffer{};
         std::string result;
 
         FILE* pipe = popen(script.c_str(), "r");
@@ -40,8 +40,8 @@ namespace ShellInterpreter {
             if (WIFEXITED(pipeCloseValue))
                 throw std::runtime_error("Shell interpretation failed, command terminated with exit code: " +
                                          std::to_string(WEXITSTATUS(pipeCloseValue)));
-            else
-                throw std::runtime_error("Shell interpretation failed, command terminated abnormally!");
+
+            throw std::runtime_error("Shell interpretation failed, command terminated abnormally!");
         }
 
         return result;

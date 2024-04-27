@@ -51,7 +51,7 @@ StatusItem::StatusItem(const StatusItem& other) {
     mInterval = other.mInterval;
 }
 
-StatusItem::StatusItem(StatusItem&& other) {
+StatusItem::StatusItem(StatusItem&& other) noexcept {
     std::lock_guard otherLock(other.mMutex);
 
     mText = std::move(other.mText);
@@ -82,7 +82,7 @@ StatusItem& StatusItem::operator=(const StatusItem& other) {
     return *this;
 }
 
-StatusItem& StatusItem::operator=(StatusItem&& other) {
+StatusItem& StatusItem::operator=(StatusItem&& other)  noexcept {
     if (this != &other) {
         std::scoped_lock lock(mMutex, other.mMutex);
 

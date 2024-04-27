@@ -25,6 +25,7 @@
 
 class StreamWriter {
 public:
+    virtual ~StreamWriter() = default;
     virtual void writeError(const std::string& errorText) = 0;
     virtual void writeStatusItems(const std::vector<StatusItem>& statusItems) = 0;
     virtual void writePreamble() {};
