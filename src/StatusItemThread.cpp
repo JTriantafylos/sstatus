@@ -38,7 +38,7 @@ StatusItemThread::StatusItemThread(int id,
 void StatusItemThread::run(int id,
                            StatusItem& statusItem,
                            std::atomic_flag& notifyFlag) {
-    modifyStatusItemText(statusItem, "Loading...", notifyFlag);
+    modifyStatusItemText(statusItem, loadingText, notifyFlag);
 
     std::string lastText;
     while (true) {

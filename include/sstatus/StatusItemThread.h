@@ -34,6 +34,8 @@ class StatusItemThread : public std::thread {
     static void run(int id,
                     StatusItem& statusItem,
                     std::atomic_flag& notifyFlag);
+
+    static constexpr std::string loadingText = "Loading...";
 };
 
 #endif
