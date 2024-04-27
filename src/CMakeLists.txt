@@ -8,7 +8,7 @@ target_sources(sstatus
         PRIVATE ShellInterpreter.cpp
         PRIVATE StatusItem.cpp
         PRIVATE StatusItemThread.cpp
-        PRIVATE StreamWriter.cpp)
+        PRIVATE streamwriters/SwaybarStreamWriter.cpp)
 
 set_property(TARGET sstatus PROPERTY CXX_STANDARD 17)
 set_property(TARGET sstatus PROPERTY RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)

@@ -32,6 +32,8 @@ class StatusItem {
                bool separatorAfter,
                long interval);
 
+    void setText(const std::string& text);
+    std::string getText() const;
     std::string getName() const;
     std::string getInstance() const;
     std::string getScript() const;
@@ -42,6 +44,7 @@ class StatusItem {
     [[nodiscard]] bool hasSeparatorAfter() const;
 
   private:
+    std::string mText;
     std::string mName;
     std::string mInstance;
     std::string mScript;

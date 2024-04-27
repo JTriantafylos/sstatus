@@ -19,22 +19,18 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include <chrono>
-#include <cstdlib>
 #include <string>
-#include <thread>
 #include <vector>
 
 #include "mpmcplusplus/mpmcplusplus.h"
 
-#include "sstatus/ConfigParser.h"
 #include "sstatus/StatusItem.h"
 #include "sstatus/StatusItemThread.h"
 #include "sstatus/StreamWriter.h"
 
 class Control {
   public:
-    Control();
+    Control(StreamWriter& streamWriter);
     ~Control();
     void launch(const std::string& configFilePath);
 
@@ -46,6 +42,7 @@ class Control {
     std::vector<StatusItemThread> mStatusItemThreads;
     std::vector<std::string> mStatusItemTextArray;
     mpmcplusplus::Queue<std::pair<std::string, int>> mStatusItemUpdateQueue;
+    StreamWriter& mStreamWriter;
 };
 
 #endif

@@ -17,19 +17,21 @@
  */
 
 #include "sstatus/Control.h"
+#include "sstatus/ConfigParser.h"
 
-Control::Control() {}
+Control::Control(StreamWriter& streamWriter) : mStreamWriter(streamWriter)
+{}
 
 // TODO: Find a way to terminate all StatusItemThreads on destruction of Control object
 Control::~Control() = default;
 
 void Control::launch(const std::string& configFilePath) {
-    StreamWriter::initJSONStream();
+    mStreamWriter.writePreamble();
 
     try {
         mStatusItems = ConfigParser::loadStatusItemsFromConfig(configFilePath);
     } catch (std::exception& err) {
-        StreamWriter::writeError(err.what());
+        mStreamWriter.writeError(err.what());
         // TODO: Find a cleaner way to pause execution after an error
         std::this_thread::sleep_for(std::chrono::hours::max());
     }
@@ -41,6 +43,8 @@ void Control::launch(const std::string& configFilePath) {
     }
 
     run();
+
+    mStreamWriter.writeTrailer();
 }
 
 [[noreturn]] void Control::run() {
@@ -58,13 +62,5 @@ void Control::launch(const std::string& configFilePath) {
 }
 
 void Control::generateStatus() {
-    StreamWriter::beginStatusItemArray();
-    bool firstItem = true;
-    for (const std::string& text : mStatusItemTextArray) {
-        if (!text.empty()) {
-            StreamWriter::writeStatusItem(text, firstItem);
-            firstItem = false;
-        }
-    }
-    StreamWriter::endStatusItemArray();
+    mStreamWriter.writeStatusItems(mStatusItems);
 }

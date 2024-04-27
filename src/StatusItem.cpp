@@ -37,6 +37,14 @@ StatusItem::StatusItem(std::string name,
       mSeparatorAfter(separatorAfter),
       mInterval(interval) {}
 
+void StatusItem::setText(const std::string& text) {
+    mText = text;
+}
+
+std::string StatusItem::getText() const {
+    return mText;
+}
+
 std::string StatusItem::getName() const {
     return mName;
 }

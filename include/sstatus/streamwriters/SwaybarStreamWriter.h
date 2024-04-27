@@ -1,5 +1,5 @@
 /*
- * StatusItemThread.h - Status item specific thread header
+ * StreamWriter.h - Stdout stream writer header
  * Copyright (C) 2020-2021 James Triantafylos
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,27 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STATUSITEMTHREAD_H
-#define STATUSITEMTHREAD_H
+#ifndef SWAYBARSTREAMWRITER_H
+#define SWAYBARSTREAMWRITER_H
 
-#include <thread>
+#include <string>
 
-#include "mpmcplusplus/mpmcplusplus.h"
+#include "sstatus/StreamWriter.h"
 
-#include "sstatus/StatusItem.h"
-
-class StatusItemThread : public std::thread {
-  public:
-    explicit StatusItemThread(int id,
-                              StatusItem& statusItem,
-                              mpmcplusplus::Queue<std::pair<std::string, int>>& queue);
-
-  private:
-    static void run(int id,
-                    StatusItem& statusItem,
-                    mpmcplusplus::Queue<std::pair<std::string, int>>& queue);
-
-    const StatusItem& mStatusItem;
+class SwaybarStreamWriter : public StreamWriter {
+public:
+    void writeError(const std::string& errorText);
+    void writeStatusItems(const std::vector<StatusItem>& statusItems);
+    void writePreamble();
 };
 
 #endif

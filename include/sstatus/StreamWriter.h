@@ -19,19 +19,16 @@
 #ifndef STREAMWRITER_H
 #define STREAMWRITER_H
 
-#include <iostream>
-#include <regex>
 #include <string>
-
+#include <vector>
 #include "sstatus/StatusItem.h"
 
-namespace StreamWriter {
-    void writeError(const std::string& errorText);
-    void writeStatusItem(const std::string& jsonText, bool firstItem);
-    void beginStatusItemArray();
-    void endStatusItemArray();
-    void initJSONStream();
-    std::string removeNewlines(const std::string& stringIn);
-}
+class StreamWriter {
+public:
+    virtual void writeError(const std::string& errorText) = 0;
+    virtual void writeStatusItems(const std::vector<StatusItem>& statusItems) = 0;
+    virtual void writePreamble() {};
+    virtual void writeTrailer() {};
+};
 
 #endif

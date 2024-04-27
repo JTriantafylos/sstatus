@@ -18,8 +18,10 @@
 
 #include <getopt.h>
 #include <filesystem>
+#include <iostream>
 
 #include "sstatus/Control.h"
+#include "sstatus/streamwriters/SwaybarStreamWriter.h"
 
 std::string getDefaultConfigFilePath() {
     std::string configFilePath;
@@ -39,7 +41,8 @@ std::string getDefaultConfigFilePath() {
 }
 
 int main(int argc, char* argv[]) {
-    Control control;
+    SwaybarStreamWriter streamWriter;
+    Control control(streamWriter);
     int opt;
     std::string configFilePath = getDefaultConfigFilePath();
 
