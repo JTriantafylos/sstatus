@@ -19,6 +19,7 @@
 #ifndef STATUSITEM_H
 #define STATUSITEM_H
 
+#include <mutex>
 #include <string>
 
 class StatusItem {
@@ -31,6 +32,10 @@ class StatusItem {
                std::string borderColor,
                bool separatorAfter,
                long interval);
+    StatusItem(const StatusItem&);
+    StatusItem(StatusItem&&);
+    StatusItem& operator=(const StatusItem&);
+    StatusItem& operator=(StatusItem&&);
 
     void setText(const std::string& text);
     std::string getText() const;
@@ -53,6 +58,7 @@ class StatusItem {
     std::string mBorderColor;
     bool mSeparatorAfter;
     long mInterval;  // Number of milliseconds between refreshing this StatusItem
+    mutable std::mutex mMutex;
 };
 
 #endif
