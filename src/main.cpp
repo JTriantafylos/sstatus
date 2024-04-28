@@ -23,6 +23,7 @@
 #include "sstatus/Control.h"
 #include "sstatus/streamwriters/SwaybarStreamWriter.h"
 
+namespace {
 std::string getDefaultConfigFilePath() {
     std::string configFilePath;
 
@@ -39,18 +40,20 @@ std::string getDefaultConfigFilePath() {
 
     return configFilePath;
 }
+}
 
 int main(int argc, char* argv[]) {
     SwaybarStreamWriter streamWriter;
     Control control(streamWriter);
-    int opt;
+
     std::string configFilePath = getDefaultConfigFilePath();
 
+    int opt = 0;
     while ((opt = getopt(argc, argv, "c:")) != -1) {
         switch (opt) {
             case 'c':
                 if (!std::filesystem::exists(optarg)) {
-                    std::cerr << argv[0] << ": Specified configuration file does not exist" << std::endl;
+                    std::cerr << argv[0] << ": Specified configuration file does not exist" << '\n';
                     exit(EXIT_FAILURE);
                 }
                 configFilePath = optarg;
