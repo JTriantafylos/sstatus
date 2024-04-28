@@ -18,6 +18,7 @@
 
 #include <getopt.h>
 #include <filesystem>
+#include <format>
 #include <iostream>
 
 #include "sstatus/Control.h"
@@ -28,14 +29,9 @@ std::string getDefaultConfigFilePath() {
     std::string configFilePath;
 
     if (getenv("XDG_CONFIG_HOME") != nullptr) {
-        configFilePath = getenv("XDG_CONFIG_HOME");
-        configFilePath.append("/sstatus");
-        configFilePath.append("/config.toml");
+        configFilePath = std::format("{}/sstatus/config.toml", getenv("XDG_CONFIG_HOME"));
     } else if (getenv("HOME") != nullptr) {
-        configFilePath = getenv("HOME");
-        configFilePath.append("/.config");
-        configFilePath.append("/sstatus");
-        configFilePath.append("/config.toml");
+        configFilePath = std::format("{}/.config/sstatus/config.toml", getenv("HOME"));
     }
 
     return configFilePath;
