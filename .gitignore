@@ -1,12 +1,3 @@
-# Ignore ccls compile_commands
-compile_commands.json
-
 # Ignore build files.
 build/*
 bin/*
-
-# Ignore clangd cache
-.cache/
-
-# Ignore CLion specific folders
-.idea/
