@@ -26,8 +26,6 @@ Control::Control(StreamWriter& streamWriter) : mStreamWriter(streamWriter)
 Control::~Control() = default;
 
 void Control::launch(const std::string& configFilePath) {
-    mStreamWriter.writePreamble();
-
     try {
         mStatusItems = ConfigParser::loadStatusItemsFromConfig(configFilePath);
     } catch (std::exception& err) {
@@ -41,11 +39,11 @@ void Control::launch(const std::string& configFilePath) {
         mStatusItemThreads.emplace_back(idCount++, statusItem, mNotifyFlag);
 
     run();
-
-    mStreamWriter.writeTrailer();
 }
 
 [[noreturn]] void Control::run() {
+    mStreamWriter.writePreamble();
+
     while (true) {
         while (!mNotifyFlag.test())
             mNotifyFlag.wait(false);
@@ -54,4 +52,6 @@ void Control::launch(const std::string& configFilePath) {
 
         mNotifyFlag.clear();
     }
+
+    mStreamWriter.writeTrailer();
 }
