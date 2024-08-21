@@ -67,29 +67,29 @@ std::string generateStatusItemJsonString(const StatusItem& item) {
         jsonString.append(",");
     }
 
-    std::string foregroundColor = item.getForegroundColor();
-    if (!foregroundColor.empty()) {
+    std::optional<StatusItem::Color> foregroundColor = item.getForegroundColor();
+    if (foregroundColor) {
         jsonString.append("\"color\": ");
         jsonString.append("\"");
-        jsonString.append(foregroundColor);
+        jsonString.append(foregroundColor->toHexString());
         jsonString.append("\"");
         jsonString.append(",");
     }
 
-    std::string backgroundColor = item.getBackgroundColor();
-    if (!backgroundColor.empty()) {
+    std::optional<StatusItem::Color> backgroundColor = item.getBackgroundColor();
+    if (backgroundColor) {
         jsonString.append("\"background\": ");
         jsonString.append("\"");
-        jsonString.append(backgroundColor);
+        jsonString.append(backgroundColor->toHexString());
         jsonString.append("\"");
         jsonString.append(",");
     }
 
-    std::string borderColor = item.getBorderColor();
-    if (!borderColor.empty()) {
+    std::optional<StatusItem::Color> borderColor = item.getBorderColor();
+    if (borderColor) {
         jsonString.append("\"border\": ");
         jsonString.append("\"");
-        jsonString.append(borderColor);
+        jsonString.append(borderColor->toHexString());
         jsonString.append("\"");
         jsonString.append(",");
     }

@@ -19,15 +19,6 @@
 #include "sstatus/ConfigParser.h"
 
 namespace ConfigParser {
-    namespace {
-        // TODO: If invalid, specify which field(s) is invalid
-        bool isValidStatusItem(const toml::table& table) {
-            return table["Script"].is_string() && table["ForegroundColor"].is_string() &&
-                table["BackgroundColor"].is_string() && table["BorderColor"].is_string() &&
-                table["SeparatorAfter"].is_boolean() && table["Interval"].is_number();
-        }
-    }
-
     std::vector<StatusItem> loadStatusItemsFromConfig(const std::string& configFilePath) {
         toml::table config;
         std::vector<StatusItem> items;
@@ -50,29 +41,30 @@ namespace ConfigParser {
                 throw std::runtime_error(errorMessage);
             }
 
-            std::string statusItemName = orderItem->as_string()->get();
-            if (!config[statusItemName]) {
-                std::string errorMessage("Non-existent status item '" + statusItemName + "' in order array!");
+            std::string name = orderItem->as_string()->get();
+            if (!config[name]) {
+                std::string errorMessage("Non-existent status item '" + name + "' in order array!");
                 throw std::runtime_error(errorMessage);
             }
 
-            toml::table* table = config[statusItemName].as_table();
-            if (!isValidStatusItem(*table)) {
-                std::string errorMessage("Malformed configuration for status item: '" + statusItemName + "'!");
-                throw std::runtime_error(errorMessage);
-            }
+            auto table = config[name];
 
-            // TODO: Implement other status item fields
+            std::string instance = std::string(name + "_" + std::to_string(i));
+            std::string script = table["Script"].value_or("");
+            std::optional<StatusItem::Color> foregroundColor = table["ForegroundColor"].value<std::string>().transform(StatusItem::Color::fromHexString);
+            std::optional<StatusItem::Color> backgroundColor = table["BackgroundColor"].value<std::string>().transform(StatusItem::Color::fromHexString);
+            std::optional<StatusItem::Color> borderColor = table["BorderColor"].value<std::string>().transform(StatusItem::Color::fromHexString);
+            bool separatorAfter = table["SeparatorAfter"].value_or(true);
+            long interval = table["Interval"].value_or(-1);
 
-            std::string in = std::string(statusItemName + "_" + std::to_string(i));
-            std::string s = table->get("Script")->value_or("");
-            std::string fg = table->get("ForegroundColor")->value_or("");
-            std::string bg = table->get("BackgroundColor")->value_or("");
-            std::string bc = table->get("BorderColor")->value_or("");
-            bool sep = table->get("SeparatorAfter")->value_or(true);
-            long interval = table->get("Interval")->value_or(-1);
-
-            StatusItem item(statusItemName, in, s, fg, bg, bc, sep, interval);
+        StatusItem item(name,
+                        instance,
+                        script,
+                        foregroundColor,
+                        backgroundColor,
+                        borderColor,
+                        separatorAfter,
+                        interval);
             items.push_back(item);
         }
         return items;

@@ -18,22 +18,23 @@
 
 #include "sstatus/StatusItem.h"
 
+#include <optional>
 #include <utility>
 
 StatusItem::StatusItem(std::string name,
                        std::string instance,
                        std::string script,
-                       std::string foregroundColor,
-                       std::string backgroundColor,
-                       std::string borderColor,
+                       std::optional<StatusItem::Color> foregroundColor,
+                       std::optional<StatusItem::Color> backgroundColor,
+                       std::optional<StatusItem::Color> borderColor,
                        bool separatorAfter,
                        const long interval)
     : mName(std::move(name)),
     mInstance(std::move(instance)),
     mScript(std::move(script)),
-    mForegroundColor(std::move(foregroundColor)),
-    mBackgroundColor(std::move(backgroundColor)),
-    mBorderColor(std::move(borderColor)),
+    mForegroundColor(foregroundColor),
+    mBackgroundColor(backgroundColor),
+    mBorderColor(borderColor),
     mSeparatorAfter(separatorAfter),
     mInterval(interval) {}
 
@@ -90,9 +91,9 @@ StatusItem& StatusItem::operator=(StatusItem&& other)  noexcept {
         mName = std::move(other.mName);
         mInstance = std::move(other.mInstance);
         mScript = std::move(other.mScript);
-        mForegroundColor = std::move(other.mForegroundColor);
-        mBackgroundColor = std::move(other.mBackgroundColor);
-        mBorderColor = std::move(other.mBorderColor);
+        mForegroundColor = other.mForegroundColor;
+        mBackgroundColor = other.mBackgroundColor;
+        mBorderColor = other.mBorderColor;
         mSeparatorAfter = other.mSeparatorAfter;
         mInterval = other.mInterval;
     }
@@ -125,17 +126,17 @@ std::string StatusItem::getScript() const {
     return mScript;
 }
 
-std::string StatusItem::getForegroundColor() const {
+std::optional<StatusItem::Color> StatusItem::getForegroundColor() const {
     std::lock_guard lock(mMutex);
     return mForegroundColor;
 }
 
-std::string StatusItem::getBackgroundColor() const {
+std::optional<StatusItem::Color> StatusItem::getBackgroundColor() const {
     std::lock_guard lock(mMutex);
     return mBackgroundColor;
 }
 
-std::string StatusItem::getBorderColor() const {
+std::optional<StatusItem::Color> StatusItem::getBorderColor() const {
     std::lock_guard lock(mMutex);
     return mBorderColor;
 }

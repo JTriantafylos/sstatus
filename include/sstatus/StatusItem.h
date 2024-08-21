@@ -19,17 +19,46 @@
 #ifndef STATUSITEM_H
 #define STATUSITEM_H
 
+#include <format>
+#include <ios>
 #include <mutex>
+#include <sstream>
 #include <string>
 
 class StatusItem {
   public:
+    struct Color {
+        uint8_t red;
+        uint8_t green;
+        uint8_t blue;
+
+        std::string toHexString() {
+            return std::format("#{:02X}{:02X}{:02X}", this->red, this->green, this->blue);
+        }
+
+        static Color fromHexString(const std::string& hex_string) {
+            uint32_t rgb = 0;
+            std::istringstream hexStringStream(hex_string);
+
+            if (hexStringStream.peek() == '#') {
+                hexStringStream.get();
+            }
+            hexStringStream >> std::hex >> rgb;
+
+            return Color {
+                (uint8_t)(rgb >> 16),
+                (uint8_t)(rgb >> 8),
+                (uint8_t)rgb
+            };
+        }
+    };
+
     StatusItem(std::string name,
                std::string instance,
                std::string script,
-               std::string foregroundColor,
-               std::string backgroundColor,
-               std::string borderColor,
+               std::optional<StatusItem::Color> foregroundColor,
+               std::optional<StatusItem::Color> backgroundColor,
+               std::optional<StatusItem::Color> borderColor,
                bool separatorAfter,
                long interval);
     StatusItem(const StatusItem&);
@@ -42,9 +71,9 @@ class StatusItem {
     std::string getName() const;
     std::string getInstance() const;
     std::string getScript() const;
-    std::string getForegroundColor() const;
-    std::string getBackgroundColor() const;
-    std::string getBorderColor() const;
+    std::optional<StatusItem::Color> getForegroundColor() const;
+    std::optional<StatusItem::Color> getBackgroundColor() const;
+    std::optional<StatusItem::Color> getBorderColor() const;
     [[nodiscard]] long getInterval() const;
     [[nodiscard]] bool hasSeparatorAfter() const;
 
@@ -53,9 +82,9 @@ class StatusItem {
     std::string mName;
     std::string mInstance;
     std::string mScript;
-    std::string mForegroundColor;
-    std::string mBackgroundColor;
-    std::string mBorderColor;
+    std::optional<StatusItem::Color> mForegroundColor;
+    std::optional<StatusItem::Color> mBackgroundColor;
+    std::optional<StatusItem::Color> mBorderColor;
     bool mSeparatorAfter;
     long mInterval;  // Number of milliseconds between refreshing this StatusItem
     mutable std::mutex mMutex;
