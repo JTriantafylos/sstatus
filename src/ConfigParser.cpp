@@ -51,21 +51,26 @@ namespace ConfigParser {
 
             std::string instance = std::string(name + "_" + std::to_string(i));
             std::string script = table["Script"].value_or("");
-            std::optional<StatusItem::Color> foregroundColor = table["ForegroundColor"].value<std::string>().transform(StatusItem::Color::fromHexString);
-            std::optional<StatusItem::Color> backgroundColor = table["BackgroundColor"].value<std::string>().transform(StatusItem::Color::fromHexString);
-            std::optional<StatusItem::Color> borderColor = table["BorderColor"].value<std::string>().transform(StatusItem::Color::fromHexString);
+            std::optional<StatusItem::Color> foregroundColor = table["ForegroundColor"]
+                                                                    .value<std::string>()
+                                                                    .transform(StatusItem::Color::fromHexString);
+            std::optional<StatusItem::Color> backgroundColor = table["BackgroundColor"]
+                                                                    .value<std::string>()
+                                                                    .transform(StatusItem::Color::fromHexString);
+            std::optional<StatusItem::Color> borderColor = table["BorderColor"]
+                                                                .value<std::string>()
+                                                                .transform(StatusItem::Color::fromHexString);
             bool separatorAfter = table["SeparatorAfter"].value_or(true);
             long interval = table["Interval"].value_or(-1);
 
-        StatusItem item(name,
-                        instance,
-                        script,
-                        foregroundColor,
-                        backgroundColor,
-                        borderColor,
-                        separatorAfter,
-                        interval);
-            items.push_back(item);
+            items.emplace_back(name,
+                               instance,
+                               script,
+                               foregroundColor,
+                               backgroundColor,
+                               borderColor,
+                               separatorAfter,
+                               interval);
         }
         return items;
     }
