@@ -20,6 +20,7 @@
 #include <filesystem>
 #include <format>
 #include <iostream>
+#include <memory>
 
 #include "sstatus/Control.h"
 #include "sstatus/streamwriters/SwaybarStreamWriter.h"
@@ -39,25 +40,35 @@ std::string getDefaultConfigFilePath() {
 }
 
 int main(int argc, char* argv[]) {
-    SwaybarStreamWriter streamWriter;
-    Control control(streamWriter);
-
     std::string configFilePath = getDefaultConfigFilePath();
+    std::unique_ptr<StreamWriter> streamWriter(new SwaybarStreamWriter);
 
     int opt = 0;
-    while ((opt = getopt(argc, argv, "c:")) != -1) {
+    while ((opt = getopt(argc, argv, "c:f:")) != -1) {
         switch (opt) {
-            case 'c':
+            case 'c': {
                 if (!std::filesystem::exists(optarg)) {
                     std::cerr << argv[0] << ": Specified configuration file does not exist" << '\n';
                     exit(EXIT_FAILURE);
                 }
                 configFilePath = optarg;
                 break;
+            }
+            case 'f': {
+                const std::string format(optarg);
+                if (format == "swaybar") {
+                    streamWriter = std::make_unique<SwaybarStreamWriter>();
+                } else {
+                    std::cerr << argv[0] << ": Specified format type does not exist" << '\n';
+                    exit(EXIT_FAILURE);
+                }
+                break;
+            }
             default:
                 exit(EXIT_FAILURE);
         }
     }
 
+    Control control(*streamWriter);
     control.launch(configFilePath);
 }
