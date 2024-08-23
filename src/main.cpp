@@ -21,54 +21,79 @@
 #include <format>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 
 #include "sstatus/Control.h"
 #include "sstatus/streamwriters/SwaybarStreamWriter.h"
 
 namespace {
-std::string getDefaultConfigFilePath() {
-    std::string configFilePath;
+    std::string getDefaultConfigFilePath() {
+        char const* const xdgConfigHomeDir = getenv("XDG_CONFIG_HOME");
+        if (xdgConfigHomeDir != nullptr) {
+            return std::format("{}/sstatus/config.toml", xdgConfigHomeDir);
+        }
 
-    if (getenv("XDG_CONFIG_HOME") != nullptr) {
-        configFilePath = std::format("{}/sstatus/config.toml", getenv("XDG_CONFIG_HOME"));
-    } else if (getenv("HOME") != nullptr) {
-        configFilePath = std::format("{}/.config/sstatus/config.toml", getenv("HOME"));
+        char const* const homeDir = getenv("HOME");
+        if (homeDir != nullptr) {
+            return std::format("{}/.config/sstatus/config.toml", homeDir);
+        }
+
+        return "/etc/sstatus/config.toml";
     }
 
-    return configFilePath;
-}
+    struct ProgramState {
+        std::string configFilePath;
+        std::unique_ptr<StreamWriter> streamWriter;
+    };
+
+    ProgramState parseOpts(const int argc, char* const* const argv) {
+        ProgramState progState;
+        int opt = 0;
+        while ((opt = getopt(argc, argv, "c:f:")) != -1) {
+            switch (opt) {
+                case 'c': {
+                    if (!std::filesystem::exists(optarg)) {
+                        throw std::invalid_argument(std::format("Configuration file '{}' doesn't exist", optarg));
+                    }
+                    progState.configFilePath = optarg;
+                    break;
+                }
+                case 'f': {
+                    const std::string format(optarg);
+                    if (format == "swaybar") {
+                        progState.streamWriter = std::make_unique<SwaybarStreamWriter>();
+                    } else {
+                        throw std::invalid_argument(std::format("Format type '{}' doesn't exist", format));
+                    }
+                    break;
+                }
+                default:
+                    exit(EXIT_FAILURE);
+            }
+        }
+
+        if (progState.configFilePath.empty()) {
+            progState.configFilePath = getDefaultConfigFilePath();
+        }
+
+        if (!progState.streamWriter) {
+            progState.streamWriter = std::make_unique<SwaybarStreamWriter>();
+        }
+
+        return progState;
+    }
 }
 
 int main(int argc, char* argv[]) {
-    std::string configFilePath = getDefaultConfigFilePath();
-    std::unique_ptr<StreamWriter> streamWriter(new SwaybarStreamWriter);
+    try {
+        ProgramState progState = parseOpts(argc, argv);
 
-    int opt = 0;
-    while ((opt = getopt(argc, argv, "c:f:")) != -1) {
-        switch (opt) {
-            case 'c': {
-                if (!std::filesystem::exists(optarg)) {
-                    std::cerr << argv[0] << ": Specified configuration file does not exist" << '\n';
-                    exit(EXIT_FAILURE);
-                }
-                configFilePath = optarg;
-                break;
-            }
-            case 'f': {
-                const std::string format(optarg);
-                if (format == "swaybar") {
-                    streamWriter = std::make_unique<SwaybarStreamWriter>();
-                } else {
-                    std::cerr << argv[0] << ": Specified format type does not exist" << '\n';
-                    exit(EXIT_FAILURE);
-                }
-                break;
-            }
-            default:
-                exit(EXIT_FAILURE);
-        }
+        Control control(*progState.streamWriter);
+        control.launch(progState.configFilePath);
+    } catch (const std::exception& err) {
+        std::cerr << argv[0] << ": " << err.what() << std::endl;
+        exit(EXIT_FAILURE);
     }
 
-    Control control(*streamWriter);
-    control.launch(configFilePath);
+    return EXIT_SUCCESS;
 }

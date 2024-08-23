@@ -58,7 +58,7 @@ Configuration for sstatus is done via a TOML file where each individual status i
 
 An example configuration can be found in `config.example.toml`.
 
-The default location for the configuration file is `${XDG_CONFIG_HOME}/sstatus/config.toml`, though `${HOME}/.config/sstatus/config.toml` will be used as a fallback location.
+The default location for the configuration file is `${XDG_CONFIG_HOME}/sstatus/config.toml`, though `${HOME}/.config/sstatus/config.toml` will be used as a fallback location. As a last resort, the hardcoded path `/etc/sstatus/config.toml` will be used.
 
 ### Global Properties
 
