@@ -31,7 +31,7 @@ class Control {
   public:
     Control(StreamWriter& streamWriter);
     ~Control();
-    void launch(const std::string& configFilePath);
+    [[noreturn]] void launch(const std::string& configFilePath);
 
   private:
     [[noreturn]] void run();

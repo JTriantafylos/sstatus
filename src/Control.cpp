@@ -25,28 +25,31 @@ Control::Control(StreamWriter& streamWriter) : mStreamWriter(streamWriter)
 // TODO: Find a way to terminate all StatusItemThreads on destruction of Control object
 Control::~Control() = default;
 
-void Control::launch(const std::string& configFilePath) {
+[[noreturn]] void Control::launch(const std::string& configFilePath) {
     try {
         mStatusItems = ConfigParser::loadStatusItemsFromConfig(configFilePath);
+
+        int idCount = 0;
+        for (StatusItem& statusItem : mStatusItems) {
+            mStatusItemThreads.emplace_back(idCount++, statusItem, mNotifyFlag);
+        }
+
+        this->run();
     } catch (std::exception& err) {
         mStreamWriter.writeError(err.what());
-        // TODO: Find a cleaner way to pause execution after an error
-        std::this_thread::sleep_for(std::chrono::hours::max());
+        while (true) {
+            pause();
+        }
     }
-
-    int idCount = 0;
-    for (StatusItem& statusItem : mStatusItems)
-        mStatusItemThreads.emplace_back(idCount++, statusItem, mNotifyFlag);
-
-    run();
 }
 
 [[noreturn]] void Control::run() {
     mStreamWriter.writePreamble();
 
     while (true) {
-        while (!mNotifyFlag.test())
+        while (!mNotifyFlag.test()) {
             mNotifyFlag.wait(false);
+        }
 
         mStreamWriter.writeStatusItems(mStatusItems);
 
