@@ -60,7 +60,7 @@ namespace {
                 }
                 case 'f': {
                     const std::string format(optarg);
-                    if (format == "swaybar") {
+                    if (format == "swaybar" || format == "i3bar") {
                         progState.streamWriter = std::make_unique<SwaybarStreamWriter>();
                     } else {
                         throw std::invalid_argument(std::format("Format type '{}' doesn't exist", format));
