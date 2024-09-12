@@ -61,7 +61,9 @@ namespace ConfigParser {
                                                                 .value<std::string>()
                                                                 .transform(StatusItem::Color::fromHexString);
             bool separatorAfter = table["SeparatorAfter"].value_or(true);
-            long interval = table["Interval"].value_or(-1);
+            std::optional<std::chrono::milliseconds> interval = table["Interval"]
+                                                                     .value<int64_t>()
+                                                                     .transform([](const int64_t val){ return std::chrono::milliseconds(val); });
 
             items.emplace_back(name,
                                instance,

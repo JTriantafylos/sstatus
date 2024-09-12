@@ -28,7 +28,7 @@ StatusItem::StatusItem(std::string name,
                        std::optional<StatusItem::Color> backgroundColor,
                        std::optional<StatusItem::Color> borderColor,
                        bool separatorAfter,
-                       const long interval)
+                       std::optional<std::chrono::milliseconds> interval)
     : mName(std::move(name)),
     mInstance(std::move(instance)),
     mScript(std::move(script)),
@@ -141,7 +141,7 @@ std::optional<StatusItem::Color> StatusItem::getBorderColor() const {
     return mBorderColor;
 }
 
-long StatusItem::getInterval() const {
+std::optional<std::chrono::milliseconds> StatusItem::getInterval() const {
     std::lock_guard lock(mMutex);
     return mInterval;
 }

@@ -60,9 +60,9 @@ class StatusItem {
                std::optional<StatusItem::Color> backgroundColor,
                std::optional<StatusItem::Color> borderColor,
                bool separatorAfter,
-               long interval);
+               std::optional<std::chrono::milliseconds> interval);
     StatusItem(const StatusItem&);
-    StatusItem(StatusItem&&) noexcept ;
+    StatusItem(StatusItem&&) noexcept;
     StatusItem& operator=(const StatusItem&);
     StatusItem& operator=(StatusItem&&) noexcept ;
 
@@ -74,7 +74,7 @@ class StatusItem {
     std::optional<StatusItem::Color> getForegroundColor() const;
     std::optional<StatusItem::Color> getBackgroundColor() const;
     std::optional<StatusItem::Color> getBorderColor() const;
-    [[nodiscard]] long getInterval() const;
+    [[nodiscard]] std::optional<std::chrono::milliseconds> getInterval() const;
     [[nodiscard]] bool hasSeparatorAfter() const;
 
   private:
@@ -86,7 +86,7 @@ class StatusItem {
     std::optional<StatusItem::Color> mBackgroundColor;
     std::optional<StatusItem::Color> mBorderColor;
     bool mSeparatorAfter;
-    long mInterval;  // Number of milliseconds between refreshing this StatusItem
+    std::optional<std::chrono::milliseconds> mInterval;
     mutable std::mutex mMutex;
 };
 

@@ -38,10 +38,11 @@ StatusItemThread::StatusItemThread(int id,
 void StatusItemThread::run(int id,
                            StatusItem& statusItem,
                            std::atomic_flag& notifyFlag) {
+    std::optional<std::chrono::milliseconds> interval = statusItem.getInterval();
     modifyStatusItemText(statusItem, loadingText, notifyFlag);
 
     std::string lastText;
-    while (true) {
+    do {
         auto startTime = std::chrono::high_resolution_clock::now();
 
         std::string text;
@@ -56,14 +57,11 @@ void StatusItemThread::run(int id,
             modifyStatusItemText(statusItem, text, notifyFlag);
         }
 
-        if (statusItem.getInterval() == -1) {
-            return;
-        }
-
+        // TODO: Define some behavior/action to take in the case where a status item
+        // falls behind on its interval (i.e., sleep duration is negative)
         auto endTime = std::chrono::high_resolution_clock::now();
-        auto runDuration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-        auto sleepDuration = statusItem.getInterval() - runDuration.count();
-        if (sleepDuration > 0)
-            std::this_thread::sleep_for(std::chrono::milliseconds(sleepDuration));
-    }
+        auto runDuration = endTime - startTime;
+        auto sleepDuration = interval.value() - runDuration;
+        std::this_thread::sleep_for(sleepDuration);
+    } while (interval);
 }
