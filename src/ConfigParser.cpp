@@ -52,18 +52,18 @@ namespace ConfigParser {
             std::string instance = std::string(name + "_" + std::to_string(i));
             std::string script = table["Script"].value_or("");
             std::optional<StatusItem::Color> foregroundColor = table["ForegroundColor"]
-                                                                    .value<std::string>()
-                                                                    .transform(StatusItem::Color::fromHexString);
+                                                                   .value<std::string>()
+                                                                   .transform(StatusItem::Color::fromHexString);
             std::optional<StatusItem::Color> backgroundColor = table["BackgroundColor"]
-                                                                    .value<std::string>()
-                                                                    .transform(StatusItem::Color::fromHexString);
-            std::optional<StatusItem::Color> borderColor = table["BorderColor"]
-                                                                .value<std::string>()
-                                                                .transform(StatusItem::Color::fromHexString);
+                                                                   .value<std::string>()
+                                                                   .transform(StatusItem::Color::fromHexString);
+            std::optional<StatusItem::Color>
+                borderColor = table["BorderColor"].value<std::string>().transform(StatusItem::Color::fromHexString);
             bool separatorAfter = table["SeparatorAfter"].value_or(true);
-            std::optional<std::chrono::milliseconds> interval = table["Interval"]
-                                                                     .value<int64_t>()
-                                                                     .transform([](const int64_t val){ return std::chrono::milliseconds(val); });
+            std::optional<std::chrono::milliseconds>
+                interval = table["Interval"].value<int64_t>().transform([](const int64_t val) {
+                    return std::chrono::milliseconds(val);
+                });
 
             items.emplace_back(name,
                                instance,
@@ -76,4 +76,4 @@ namespace ConfigParser {
         }
         return items;
     }
-}
+}  // namespace ConfigParser

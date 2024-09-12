@@ -21,23 +21,17 @@
 #include "sstatus/ShellInterpreter.h"
 
 namespace {
-void modifyStatusItemText(StatusItem& statusItem,
-                          const std::string& text,
-                          std::atomic_flag& notifyFlag) {
-    statusItem.setText(text);
-    notifyFlag.test_and_set();
-    notifyFlag.notify_all();
-}
-}
+    void modifyStatusItemText(StatusItem& statusItem, const std::string& text, std::atomic_flag& notifyFlag) {
+        statusItem.setText(text);
+        notifyFlag.test_and_set();
+        notifyFlag.notify_all();
+    }
+}  // namespace
 
-StatusItemThread::StatusItemThread(int id,
-                                   StatusItem& statusItem,
-                                   std::atomic_flag& notifyFlag)
-: std::thread([id, &statusItem, &notifyFlag]() { run(id, statusItem, notifyFlag); }) {}
+StatusItemThread::StatusItemThread(int id, StatusItem& statusItem, std::atomic_flag& notifyFlag)
+    : std::thread([id, &statusItem, &notifyFlag]() { run(id, statusItem, notifyFlag); }) {}
 
-void StatusItemThread::run(int id,
-                           StatusItem& statusItem,
-                           std::atomic_flag& notifyFlag) {
+void StatusItemThread::run(int id, StatusItem& statusItem, std::atomic_flag& notifyFlag) {
     std::optional<std::chrono::milliseconds> interval = statusItem.getInterval();
     modifyStatusItemText(statusItem, loadingText, notifyFlag);
 

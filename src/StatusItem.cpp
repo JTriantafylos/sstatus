@@ -30,13 +30,13 @@ StatusItem::StatusItem(std::string name,
                        bool separatorAfter,
                        std::optional<std::chrono::milliseconds> interval)
     : mName(std::move(name)),
-    mInstance(std::move(instance)),
-    mScript(std::move(script)),
-    mForegroundColor(foregroundColor),
-    mBackgroundColor(backgroundColor),
-    mBorderColor(borderColor),
-    mSeparatorAfter(separatorAfter),
-    mInterval(interval) {}
+      mInstance(std::move(instance)),
+      mScript(std::move(script)),
+      mForegroundColor(foregroundColor),
+      mBackgroundColor(backgroundColor),
+      mBorderColor(borderColor),
+      mSeparatorAfter(separatorAfter),
+      mInterval(interval) {}
 
 StatusItem::StatusItem(const StatusItem& other) {
     std::lock_guard otherLock(other.mMutex);
@@ -83,7 +83,7 @@ StatusItem& StatusItem::operator=(const StatusItem& other) {
     return *this;
 }
 
-StatusItem& StatusItem::operator=(StatusItem&& other)  noexcept {
+StatusItem& StatusItem::operator=(StatusItem&& other) noexcept {
     if (this != &other) {
         std::scoped_lock lock(mMutex, other.mMutex);
 
@@ -99,7 +99,6 @@ StatusItem& StatusItem::operator=(StatusItem&& other)  noexcept {
     }
     return *this;
 }
-
 
 void StatusItem::setText(const std::string& text) {
     std::lock_guard lock(mMutex);

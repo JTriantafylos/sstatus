@@ -19,8 +19,7 @@
 #include "sstatus/Control.h"
 #include "sstatus/ConfigParser.h"
 
-Control::Control(StreamWriter& streamWriter) : mStreamWriter(streamWriter)
-{}
+Control::Control(StreamWriter& streamWriter) : mStreamWriter(streamWriter) {}
 
 // TODO: Find a way to terminate all StatusItemThreads on destruction of Control object
 Control::~Control() = default;

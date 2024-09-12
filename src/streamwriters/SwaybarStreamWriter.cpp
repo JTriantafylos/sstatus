@@ -23,86 +23,86 @@
 
 namespace {
 
-std::string removeNewlines(const std::string& stringIn) {
-    return regex_replace(stringIn, std::regex("\n+"), "");
-}
-
-void writeJsonArrayBegin() {
-    std::cout << "[" << std::flush;
-}
-
-void writeJsonArrayEnd() {
-    std::cout << "]," << std::flush;
-}
-
-std::string generateStatusItemJsonString(const StatusItem& item) {
-    std::string jsonString;
-
-    jsonString.append("{");
-
-    std::string text = item.getText();
-    if (!text.empty()) {
-        jsonString.append("\"full_text\": ");
-        jsonString.append("\"");
-        jsonString.append(text);
-        jsonString.append("\"");
-        jsonString.append(",");
+    std::string removeNewlines(const std::string& stringIn) {
+        return regex_replace(stringIn, std::regex("\n+"), "");
     }
 
-    std::string name = item.getName();
-    if (!name.empty()) {
-        jsonString.append("\"name\": ");
-        jsonString.append("\"");
-        jsonString.append(name);
-        jsonString.append("\"");
-        jsonString.append(",");
+    void writeJsonArrayBegin() {
+        std::cout << "[" << std::flush;
     }
 
-    std::string instance = item.getInstance();
-    if (!instance.empty()) {
-        jsonString.append("\"instance\": ");
-        jsonString.append("\"");
-        jsonString.append(instance);
-        jsonString.append("\"");
-        jsonString.append(",");
+    void writeJsonArrayEnd() {
+        std::cout << "]," << std::flush;
     }
 
-    std::optional<StatusItem::Color> foregroundColor = item.getForegroundColor();
-    if (foregroundColor) {
-        jsonString.append("\"color\": ");
-        jsonString.append("\"");
-        jsonString.append(foregroundColor->toHexString());
-        jsonString.append("\"");
-        jsonString.append(",");
+    std::string generateStatusItemJsonString(const StatusItem& item) {
+        std::string jsonString;
+
+        jsonString.append("{");
+
+        std::string text = item.getText();
+        if (!text.empty()) {
+            jsonString.append("\"full_text\": ");
+            jsonString.append("\"");
+            jsonString.append(text);
+            jsonString.append("\"");
+            jsonString.append(",");
+        }
+
+        std::string name = item.getName();
+        if (!name.empty()) {
+            jsonString.append("\"name\": ");
+            jsonString.append("\"");
+            jsonString.append(name);
+            jsonString.append("\"");
+            jsonString.append(",");
+        }
+
+        std::string instance = item.getInstance();
+        if (!instance.empty()) {
+            jsonString.append("\"instance\": ");
+            jsonString.append("\"");
+            jsonString.append(instance);
+            jsonString.append("\"");
+            jsonString.append(",");
+        }
+
+        std::optional<StatusItem::Color> foregroundColor = item.getForegroundColor();
+        if (foregroundColor) {
+            jsonString.append("\"color\": ");
+            jsonString.append("\"");
+            jsonString.append(foregroundColor->toHexString());
+            jsonString.append("\"");
+            jsonString.append(",");
+        }
+
+        std::optional<StatusItem::Color> backgroundColor = item.getBackgroundColor();
+        if (backgroundColor) {
+            jsonString.append("\"background\": ");
+            jsonString.append("\"");
+            jsonString.append(backgroundColor->toHexString());
+            jsonString.append("\"");
+            jsonString.append(",");
+        }
+
+        std::optional<StatusItem::Color> borderColor = item.getBorderColor();
+        if (borderColor) {
+            jsonString.append("\"border\": ");
+            jsonString.append("\"");
+            jsonString.append(borderColor->toHexString());
+            jsonString.append("\"");
+            jsonString.append(",");
+        }
+
+        jsonString.append("\"separator\": ");
+        jsonString.append(item.hasSeparatorAfter() ? "true" : "false");
+
+        jsonString.append("}");
+
+        return jsonString;
     }
 
-    std::optional<StatusItem::Color> backgroundColor = item.getBackgroundColor();
-    if (backgroundColor) {
-        jsonString.append("\"background\": ");
-        jsonString.append("\"");
-        jsonString.append(backgroundColor->toHexString());
-        jsonString.append("\"");
-        jsonString.append(",");
-    }
-
-    std::optional<StatusItem::Color> borderColor = item.getBorderColor();
-    if (borderColor) {
-        jsonString.append("\"border\": ");
-        jsonString.append("\"");
-        jsonString.append(borderColor->toHexString());
-        jsonString.append("\"");
-        jsonString.append(",");
-    }
-
-    jsonString.append("\"separator\": ");
-    jsonString.append(item.hasSeparatorAfter() ? "true" : "false");
-
-    jsonString.append("}");
-
-    return jsonString;
-}
-
-}
+}  // namespace
 
 void SwaybarStreamWriter::writeError(const std::string& errorText) {
     writeJsonArrayBegin();
@@ -112,7 +112,6 @@ void SwaybarStreamWriter::writeError(const std::string& errorText) {
     std::cout << std::flush;
 }
 void SwaybarStreamWriter::writeStatusItems(const std::vector<StatusItem>& statusItems) {
-
     writeJsonArrayBegin();
     bool first = true;
     for (const StatusItem& statusItem : statusItems) {

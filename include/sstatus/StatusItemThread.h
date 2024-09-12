@@ -26,14 +26,10 @@
 
 class StatusItemThread : public std::thread {
   public:
-    explicit StatusItemThread(int id,
-                              StatusItem& statusItem,
-                              std::atomic_flag& notifyFlag);
+    explicit StatusItemThread(int id, StatusItem& statusItem, std::atomic_flag& notifyFlag);
 
   private:
-    static void run(int id,
-                    StatusItem& statusItem,
-                    std::atomic_flag& notifyFlag);
+    static void run(int id, StatusItem& statusItem, std::atomic_flag& notifyFlag);
 
     static constexpr std::string loadingText = "Loading...";
 };

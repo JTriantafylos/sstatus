@@ -24,6 +24,6 @@
 namespace ShellInterpreter {
     std::string interpret(const std::string& script);
     static constexpr std::size_t pipeBufferSize = 128;
-}
+}  // namespace ShellInterpreter
 
 #endif

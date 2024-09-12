@@ -24,7 +24,7 @@
 #include "sstatus/StatusItem.h"
 
 class StreamWriter {
-public:
+  public:
     virtual ~StreamWriter() = default;
     virtual void writeError(const std::string& errorText) = 0;
     virtual void writeStatusItems(const std::vector<StatusItem>& statusItems) = 0;

@@ -24,7 +24,7 @@
 #include "sstatus/StreamWriter.h"
 
 class SwaybarStreamWriter : public StreamWriter {
-public:
+  public:
     void writeError(const std::string& errorText) override;
     void writeStatusItems(const std::vector<StatusItem>& statusItems) override;
     void writePreamble() override;

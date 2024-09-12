@@ -32,9 +32,7 @@ class StatusItem {
         uint8_t green;
         uint8_t blue;
 
-        std::string toHexString() {
-            return std::format("#{:02X}{:02X}{:02X}", this->red, this->green, this->blue);
-        }
+        std::string toHexString() { return std::format("#{:02X}{:02X}{:02X}", this->red, this->green, this->blue); }
 
         static Color fromHexString(const std::string& hex_string) {
             uint32_t rgb = 0;
@@ -45,11 +43,7 @@ class StatusItem {
             }
             hexStringStream >> std::hex >> rgb;
 
-            return Color {
-                (uint8_t)(rgb >> 16),
-                (uint8_t)(rgb >> 8),
-                (uint8_t)rgb
-            };
+            return Color{(uint8_t)(rgb >> 16), (uint8_t)(rgb >> 8), (uint8_t)rgb};
         }
     };
 
@@ -64,7 +58,7 @@ class StatusItem {
     StatusItem(const StatusItem&);
     StatusItem(StatusItem&&) noexcept;
     StatusItem& operator=(const StatusItem&);
-    StatusItem& operator=(StatusItem&&) noexcept ;
+    StatusItem& operator=(StatusItem&&) noexcept;
 
     void setText(const std::string& text);
     std::string getText() const;

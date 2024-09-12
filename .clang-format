@@ -3,8 +3,13 @@ Language: Cpp
 BasedOnStyle: Chromium
 
 AccessModifierOffset: -2
-IndentWidth: 4
+AllowAllArgumentsOnNextLine: false
+BinPackArguments: false
 ColumnLimit: 120
-FixNamespaceComments: false
+IndentWidth: 4
 NamespaceIndentation: All
+PackConstructorInitializers: CurrentLine
+PenaltyBreakAssignment: 1000
+PenaltyBreakBeforeFirstCallParameter: 1000
+PenaltyBreakOpenParenthesis: 1000
 ...

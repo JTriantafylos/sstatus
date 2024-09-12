@@ -46,4 +46,4 @@ namespace ShellInterpreter {
 
         return result;
     }
-}
+}  // namespace ShellInterpreter
