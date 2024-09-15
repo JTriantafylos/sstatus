@@ -25,6 +25,7 @@
 
 #include "sstatus/Control.h"
 #include "sstatus/streamwriters/SwaybarStreamWriter.h"
+#include "sstatus/streamwriters/TuiStreamWriter.h"
 
 namespace {
     std::string getDefaultConfigFilePath() {
@@ -47,7 +48,8 @@ namespace {
     };
 
     ProgramState parseOpts(const int argc, char* const* const argv) {
-        ProgramState progState;
+        ProgramState progState{.configFilePath = getDefaultConfigFilePath(),
+                               .streamWriter = std::make_unique<SwaybarStreamWriter>()};
         int opt = 0;
         while ((opt = getopt(argc, argv, "c:f:")) != -1) {
             switch (opt) {
@@ -62,6 +64,8 @@ namespace {
                     const std::string format(optarg);
                     if (format == "swaybar" || format == "i3bar") {
                         progState.streamWriter = std::make_unique<SwaybarStreamWriter>();
+                    } else if (format == "tui") {
+                        progState.streamWriter = std::make_unique<TuiStreamWriter>();
                     } else {
                         throw std::invalid_argument(std::format("Format type '{}' doesn't exist", format));
                     }
@@ -70,14 +74,6 @@ namespace {
                 default:
                     exit(EXIT_FAILURE);
             }
-        }
-
-        if (progState.configFilePath.empty()) {
-            progState.configFilePath = getDefaultConfigFilePath();
-        }
-
-        if (!progState.streamWriter) {
-            progState.streamWriter = std::make_unique<SwaybarStreamWriter>();
         }
 
         return progState;
