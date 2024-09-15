@@ -25,7 +25,10 @@
 
 #include "sstatus/Control.h"
 #include "sstatus/streamwriters/SwaybarStreamWriter.h"
+
+#ifdef SSTATUS_FORMAT_TUI
 #include "sstatus/streamwriters/TuiStreamWriter.h"
+#endif
 
 namespace {
     std::string getDefaultConfigFilePath() {
@@ -64,9 +67,13 @@ namespace {
                     const std::string format(optarg);
                     if (format == "swaybar" || format == "i3bar") {
                         progState.streamWriter = std::make_unique<SwaybarStreamWriter>();
-                    } else if (format == "tui") {
+                    }
+#ifdef SSTATUS_FORMAT_TUI
+                    else if (format == "tui") {
                         progState.streamWriter = std::make_unique<TuiStreamWriter>();
-                    } else {
+                    }
+#endif
+                    else {
                         throw std::invalid_argument(std::format("Format type '{}' doesn't exist", format));
                     }
                     break;
